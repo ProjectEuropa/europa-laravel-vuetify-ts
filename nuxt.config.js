@@ -34,6 +34,15 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [],
+
+  watchers: {
+    chokidar: {
+      usePolling: true
+    },
+    webpack: {
+      poll: true
+    }
+  },
   /*
    ** Nuxt.js modules
    */
@@ -41,7 +50,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     "@nuxtjs/axios",
     // "@nuxtjs/pwa",
-    "nuxt-laravel"
+    "nuxt-laravel",
+    "@nuxtjs/vuetify"
   ],
 
   laravel: {
