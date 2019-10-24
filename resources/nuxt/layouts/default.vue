@@ -85,15 +85,15 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left>
+    <v-app-bar app clipped-left color="blue darken-3 white--text">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Europa - Carnage Heart EXA Uploader -</v-toolbar-title>
     </v-app-bar>
 
     <nuxt/>
 
-    <v-footer app>
-      <span>&copy; Team Project Europa {{new Date().getFullYear()}}</span>
+    <v-footer app clipped-center color="blue darken-3 white--text">
+      <span>&copy; Team Project Europa 2016-{{new Date().getFullYear()}}</span>
     </v-footer>
   </v-app>
 </template>
@@ -107,7 +107,7 @@ export default {
     drawer: null
   }),
   created() {
-    this.$vuetify.theme.dark = true;
+    // this.$vuetify.theme.dark = true;
   }
 };
 </script>

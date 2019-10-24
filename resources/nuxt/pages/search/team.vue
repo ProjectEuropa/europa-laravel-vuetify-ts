@@ -1,6 +1,11 @@
 <template>
   <v-content>
     <v-container fluid>
+      <v-form class="d-flex justify-md-space-center justify-sm-space-between">
+        <v-text-field label="Solo" placeholder="keyword" solo></v-text-field>
+        <v-select :items="items" v-model="itemDefault" solo></v-select>
+        <v-btn class="primary">Search</v-btn>
+      </v-form>
       <v-simple-table dense>
         <template v-slot:default>
           <thead>
@@ -29,6 +34,7 @@
           </tbody>
         </template>
       </v-simple-table>
+      <v-pagination v-model="page" class="my-4" :length="15"></v-pagination>
     </v-container>
   </v-content>
 </template>
@@ -129,7 +135,19 @@ export default {
           file_name: "TKNHB8.CHE",
           date: "2019-10-19 11:44:30"
         }
-      ]
+      ],
+      page: 1,
+      items: [
+        {
+          text: "投稿日時の新しい順",
+          value: "1"
+        },
+        {
+          text: "投稿日時の古い順",
+          value: "2"
+        }
+      ],
+      itemDefault: "1"
     };
   }
 };
