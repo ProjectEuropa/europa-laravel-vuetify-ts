@@ -4,6 +4,15 @@
       <v-list dense>
         <v-list-item>
           <v-list-item-action>
+            <v-icon>mdi-folder-information-outline</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Information</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-action>
             <v-icon>mdi-file-import</v-icon>
           </v-list-item-action>
           <v-list-item-content>
@@ -90,7 +99,7 @@
       <v-toolbar-title>Europa - Carnage Heart EXA Uploader -</v-toolbar-title>
     </v-app-bar>
 
-    <nuxt/>
+    <nuxt />
 
     <v-footer app clipped-center color="blue darken-3 white--text">
       <span>&copy; Team Project Europa 2016-{{new Date().getFullYear()}}</span>
