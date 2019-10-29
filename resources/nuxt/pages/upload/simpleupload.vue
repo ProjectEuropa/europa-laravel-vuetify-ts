@@ -18,6 +18,7 @@
               </v-card-title>
               <v-col cols="12" md="12">
                 <v-text-field
+                  prepend-icon="mdi-account-circle"
                   v-model="name"
                   :counter="10"
                   :rules="nameRules"
@@ -25,8 +26,8 @@
                   required
                 ></v-text-field>
 
-                <v-textarea v-model="email" :rules="emailRules" label="コメント" required></v-textarea>
-                <v-combobox v-model="select" :items="items" label="検索タグを設定して下さい" multiple chips>
+                <v-textarea prepend-icon="mdi-comment-multiple-outline" v-model="email" :rules="emailRules" label="コメント" required></v-textarea>
+                <v-combobox prepend-icon="mdi-tag-plus" v-model="select" :items="items" label="検索タグを設定して下さい" multiple chips>
                   <template v-slot:selection="data">
                     <v-chip
                       :key="JSON.stringify(data.item)"
