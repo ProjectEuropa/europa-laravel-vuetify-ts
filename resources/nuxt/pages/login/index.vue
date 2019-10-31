@@ -31,6 +31,13 @@
                   <v-btn primary large block class="primary">Login</v-btn>
                 </v-card-actions>
               </v-form>
+
+              <v-col cols="12" md="12">
+                <v-card-title class="cyan">
+                  <v-icon large left>mdi-twitter</v-icon>
+                  <span class="title font-weight-light">Login with Twitter</span>
+                </v-card-title>
+              </v-col>
             </v-card>
           </v-container>
         </v-flex>
