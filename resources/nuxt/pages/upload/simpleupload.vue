@@ -49,7 +49,7 @@
                 <v-file-input append-icon show-size counter multiple label="チームデータ"></v-file-input>
               </v-col>
               <v-card-actions class="justify-center">
-                <v-btn class="primary">チームデータアップロード</v-btn>
+                <v-btn large block class="primary">チームデータアップロード</v-btn>
               </v-card-actions>
             </v-card>
           </v-row>
