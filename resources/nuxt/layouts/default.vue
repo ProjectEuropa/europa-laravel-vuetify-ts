@@ -7,7 +7,9 @@
             <v-icon>mdi-folder-information-outline</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Information</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/information">Information</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -16,7 +18,9 @@
             <v-icon>mdi-file-import</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Search Team Data</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/search/team">Search Team Data</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -25,7 +29,9 @@
             <v-icon>mdi-file-import</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Search Match Data</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/search/match">Search Match Data</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -34,7 +40,9 @@
             <v-icon>mdi-upload</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Upload</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/upload/simpleupload">Simple Upload</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -43,7 +51,9 @@
             <v-icon>mdi-upload</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Simple Upload</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/upload">Upload</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -52,7 +62,9 @@
             <v-icon>mdi-database-import</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Sum Dowunload Team Data</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/sumdownload/team">Sum Dowunload Team Data</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -61,7 +73,20 @@
             <v-icon>mdi-database-import</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Sum Dowunload Match Data</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/sumdonwload/match">Sum Dowunload Match Data</nuxt-link>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item>
+          <v-list-item-action>
+            <v-icon>mdi-bell-ring</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/eventnotice">Eventnotice</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -70,7 +95,9 @@
             <v-icon>mdi-settings</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Mypage</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/mypage">Mypage</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -79,7 +106,9 @@
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Login</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/login">Login</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
@@ -88,7 +117,9 @@
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Register</v-list-item-title>
+            <v-list-item-title>
+              <nuxt-link class="black--text" to="/register">Register</nuxt-link>
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
