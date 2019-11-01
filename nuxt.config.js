@@ -62,7 +62,8 @@ export default {
   },
 
   router: {
-    base: "/app/"
+    base: "/uploader/",
+    trailingSlash: false
   },
   /*
    ** Axios module configuration
