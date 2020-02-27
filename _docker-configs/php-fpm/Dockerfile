@@ -38,12 +38,7 @@ RUN apk --no-cache update && \
   && rm -rf /var/cache/apk/*
 
 RUN apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python
-# RUN npm install --quiet node-gyp -g
 
-# xdebug
-# RUN apk add autoconf build-base
-# RUN pecl install xdebug
-# RUN docker-php-ext-enable xdebug
 
 WORKDIR /var/www/html
 

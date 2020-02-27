@@ -1,7 +1,7 @@
 version: "3"
 services:
   nginx:
-    image: nginx:alpine
+    image: nginx:1.17.8-alpine
     depends_on:
       - php-fpm
     ports:
@@ -40,10 +40,10 @@ services:
     # volumes:
     #   - ./data:/var/lib/postgresql/data
     container_name: "pg-pe-12"
-  metabase:
-    container_name: metabase
-    image: metabase/metabase
+  pggui:
+    container_name: pgweb
+    image: sosedoff/pgweb
     ports:
-      - 3010:3000
-    links:
+      - 8081:8081
+    depends_on:
       - pg
