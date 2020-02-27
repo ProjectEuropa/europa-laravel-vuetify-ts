@@ -80,9 +80,6 @@
             @endif
 
             <div class="content">
-                @php
-                  echo file_get_contents('nuxt/index.html')
-                @endphp
 
                 <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>
