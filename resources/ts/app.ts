@@ -1,12 +1,18 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
+import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import "vuetify/dist/vuetify.min.css";
-import App from "./components/ExampleComponent.vue";
+import App from "./components/Main.vue";
+import router from './router'
 
 Vue.use(Vuetify);
-
+new Vuetify({
+  icons: {
+    iconfont: 'mdi',
+  }
+});
 new Vue({
-  el: "#app",
+  router: router,
   render: h => h(App),
   vuetify: new Vuetify()
-});
+}).$mount('#app')
