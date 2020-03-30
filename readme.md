@@ -1,4 +1,4 @@
-# 見た目の確認用
+# 見た目確認用
 
-[こちらから](https://hungry-dubinsky-c7276f.netlify.com/uploader/)
+[こちらから](https://stg-europa.herokuapp.com/)
 
