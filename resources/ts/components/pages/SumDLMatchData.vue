@@ -41,75 +41,77 @@
 </template>
 
 <script lang="ts">
+import { FileDataObject } from "../../vue-data-entity/FileDataObject";
+import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
+
 import { Vue, Component } from "vue-property-decorator";
 
 @Component
 export default class SumDLMatchData extends Vue {
-  teams: Array<any> = [
+  teams: Array<FileDataObject> = [
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     },
     {
       name: "M2",
       comments: `秋季演習大会2019`,
       file_name: "TKNHB8.CHE",
-      date: "2019-10-19 11:44:30"
+      date: new Date("2019-10-19 11:44:30")
     }
   ];
   page: Number = 1;
-  items: Array<any> = [
+  items: Array<SelectBoxTextValueObject> = [
     {
       text: "投稿日時の新しい順",
       value: "1"

@@ -114,11 +114,13 @@
 </template>
 
 <script lang="ts">
+import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
+
 import { Vue, Component } from "vue-property-decorator";
 
 @Component
 export default class EventNotice extends Vue {
-  items: Array<object> = [
+  items: Array<SelectBoxTextValueObject> = [
     {
       text: "大会",
       value: "1"
