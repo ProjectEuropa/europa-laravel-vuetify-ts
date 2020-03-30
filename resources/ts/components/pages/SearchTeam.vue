@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
-import { OrderTextValueObject } from "../../vue-data-entity/OrderTextValueObject";
+import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 
 import { Vue, Component } from "vue-property-decorator";
 
@@ -143,7 +143,7 @@ export default class SearchTeam extends Vue {
     }
   ];
   page: Number = 1;
-  items: Array<OrderTextValueObject> = [
+  items: Array<SelectBoxTextValueObject> = [
     {
       text: "投稿日時の新しい順",
       value: "1"
