@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { FileDataObject } from "../../vue-data-entity/TeamData";
+import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { OrderTextValueObject } from "../../vue-data-entity/OrderTextValueObject";
 
 import { Vue, Component } from "vue-property-decorator";
