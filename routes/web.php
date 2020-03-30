@@ -15,7 +15,8 @@
 //     '\\' . Pallares\LaravelNuxt\Controllers\NuxtController::class
 // )->where('uri', '.*');
 
-
-Route::get('/', function() {
-    return view('welcome');
+Route::group(['middleware' => 'auth.very_basic'], function() {
+  Route::get('/', function() {
+      return view('welcome');
+  });
 });
