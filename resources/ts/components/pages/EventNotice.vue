@@ -19,22 +19,25 @@
                 </v-list-item>
               </v-card-title>
               <v-col cols="12" md="12">
-                <v-text-field
-                  prepend-icon="mdi-calendar-edit"
-                  v-model="eventName"
-                  :counter="10"
-                  :rules="requiredRule"
-                  label="イベント名"
-                  required
-                ></v-text-field>
-
-                <v-textarea
-                  prepend-icon="mdi-comment-multiple-outline"
-                  v-model="eventDetails"
-                  :rules="requiredRule"
-                  label="イベント詳細情報"
-                  required
-                ></v-textarea>
+                <ValidationProvider v-slot="{ errors }" name="イベント名" rules="required|max:100">
+                  <v-text-field
+                    prepend-icon="mdi-calendar-edit"
+                    v-model="eventName"
+                    :counter="100"
+                    :error-messages="errors"
+                    label="イベント名"
+                    required
+                  ></v-text-field>
+                </ValidationProvider>
+                <ValidationProvider v-slot="{ errors }" name="イベント詳細情報" rules="required|max:100">
+                  <v-textarea
+                    prepend-icon="mdi-comment-multiple-outline"
+                    v-model="eventDetails"
+                    :error-messages="errors"
+                    label="イベント詳細情報"
+                    required
+                  ></v-textarea>
+                </ValidationProvider>
 
                 <v-text-field
                   prepend-icon="mdi-google"
@@ -53,15 +56,21 @@
                   min-width="290px"
                 >
                   <template v-slot:activator="{ on }">
-                    <v-text-field
-                      prepend-icon="mdi-av-timer"
-                      v-model="closeDay"
-                      :counter="10"
-                      :rules="requiredRule"
-                      label="イベント受付期間締切日"
-                      v-on="on"
-                      required
-                    ></v-text-field>
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="イベント受付期間締切日"
+                      rules="required|max:10"
+                    >
+                      <v-text-field
+                        :error-messages="errors"
+                        prepend-icon="mdi-av-timer"
+                        v-model="closeDay"
+                        :counter="10"
+                        label="イベント受付期間締切日"
+                        v-on="on"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
                   </template>
                   <v-date-picker
                     no-title
@@ -81,15 +90,22 @@
                   min-width="290px"
                 >
                   <template v-slot:activator="{ on }">
-                    <v-text-field
-                      prepend-icon="mdi-lastpass"
-                      v-model="displayDay"
-                      :counter="10"
-                      :rules="requiredRule"
-                      label="イベント表示最終日"
-                      v-on="on"
-                      required
-                    ></v-text-field>
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="イベント表示最終日"
+                      rules="required|max:10"
+                    >
+                      <v-text-field
+                        :error-messages="errors"
+                        prepend-icon="mdi-lastpass"
+                        v-model="displayDay"
+                        :counter="10"
+                        :rules="requiredRule"
+                        label="イベント表示最終日"
+                        v-on="on"
+                        required
+                      ></v-text-field>
+                    </ValidationProvider>
                   </template>
                   <v-date-picker
                     no-title
@@ -140,9 +156,6 @@ export default class EventNotice extends Vue {
   url: string = "";
   closeDay: string = "";
   displayDay: string = "";
-  requiredRule: Array<object> = [
-    (value: any) => !!value || "こちらの項目は必須入力です"
-  ];
   menu: boolean = false;
   menu2: boolean = false;
 }

@@ -102,7 +102,6 @@ export default class SearchTeam extends Vue {
 チーム名：TケルダールN「HB8」
 コメント：ハイブリッド月影第8弾`,
       file_name: "TKNHB8.CHE",
-
       date: new Date("2019-10-19 11:44:30")
     },
     {
