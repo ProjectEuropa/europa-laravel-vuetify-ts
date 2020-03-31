@@ -14,7 +14,7 @@
             required
           ></v-text-field>
         </v-card-text>
-        <v-card-actions class="d-flex justify-space-between">
+        <v-card-actions>
           <v-spacer></v-spacer>
           <v-flex>
             <v-btn class="text-left" color="green darken-1" text @click="close">キャンセル</v-btn>
