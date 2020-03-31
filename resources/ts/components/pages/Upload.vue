@@ -17,25 +17,30 @@
                 </v-list-item>
               </v-card-title>
               <v-col cols="12" md="12">
-                <v-text-field
-                  prepend-icon="mdi-account-circle"
-                  v-model="ownerName"
-                  :counter="10"
-                  :rules="requiredRule"
-                  label="オーナー名"
-                  required
-                ></v-text-field>
+                <ValidationProvider v-slot="{ errors }" name="オーナー名" rules="required|max:100">
+                  <v-text-field
+                    prepend-icon="mdi-account-circle"
+                    v-model="ownerName"
+                    :counter="100"
+                    :error-messages="errors"
+                    label="オーナー名"
+                    required
+                  ></v-text-field>
+                </ValidationProvider>
+                <ValidationProvider v-slot="{ errors }" name="コメント" rules="required|max:200">
+                  <v-textarea
+                    prepend-icon="mdi-comment-multiple-outline"
+                    v-model="comment"
+                    :error-messages="errors"
+                    label="コメント"
+                    required
+                  ></v-textarea>
+                </ValidationProvider>
 
-                <v-textarea
-                  prepend-icon="mdi-comment-multiple-outline"
-                  v-model="comment"
-                  :rules="requiredRule"
-                  label="コメント"
-                  required
-                ></v-textarea>
                 <v-combobox
                   v-model="searchTag"
                   :items="items"
+                  :counter="4"
                   label="検索タグ"
                   multiple
                   chips
@@ -46,7 +51,6 @@
                       :key="JSON.stringify(data.item)"
                       v-bind="data.attrs"
                       :input-value="data.selected"
-                      :disabled="data.disabled"
                       @click:close="data.parent.selectItem(data.item)"
                     >
                       <v-avatar
@@ -140,17 +144,24 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component
 export default class Upload extends Vue {
   items: Array<string> = ["大会ゲスト許可", "フリーOKE"];
-  requiredRule: Array<object> = [
-    (value: any) => !!value || "こちらの項目は必須入力です"
-  ];
   ownerName: string = "";
   comment: string = "";
   searchTag: Array<string> = [];
   deletePassword: string = "";
+
+  /**
+   * watch
+   */
+  @Watch("searchTag")
+  onSearchTagChanged() {
+    if (this.searchTag.length > 4) {
+      this.$nextTick(() => this.searchTag.pop());
+    }
+  }
 }
 </script>
