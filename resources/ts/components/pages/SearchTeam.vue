@@ -30,7 +30,7 @@
               <td>{{ item.file_name }}</td>
               <td>{{ item.date }}</td>
               <td>
-                <v-icon>mdi-delete-forever</v-icon>
+                <v-icon @click="dialogOpen">mdi-delete-forever</v-icon>
               </td>
             </tr>
           </tbody>
@@ -38,16 +38,21 @@
       </v-simple-table>
       <v-pagination v-model="page" class="my-4" :length="15"></v-pagination>
     </v-container>
+    <delete-modal ref="dialog"></delete-modal>
   </v-content>
 </template>
 
 <script lang="ts">
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
-
+import DeleteModal from "../modules/DeleteModal.vue";
 import { Vue, Component } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {
+    DeleteModal
+  }
+})
 export default class SearchTeam extends Vue {
   teams: Array<FileDataObject> = [
     {
@@ -153,5 +158,16 @@ export default class SearchTeam extends Vue {
     }
   ];
   itemDefault: string = "1";
+  dialog: boolean = false;
+
+  $refs!: {
+    dialog: DeleteModal;
+  };
+  /**
+   * name
+   */
+  public dialogOpen() {
+    this.$refs.dialog.open();
+  }
 }
 </script>
