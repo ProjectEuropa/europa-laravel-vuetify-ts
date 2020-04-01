@@ -65,7 +65,7 @@
                 <v-file-input append-icon show-size counter multiple label="チームデータ"></v-file-input>
               </v-col>
               <v-card-actions class="justify-center">
-                <v-btn large block class="primary">チームデータアップロード</v-btn>
+                <v-btn large block class="primary" @click="dialogOpen">チームデータアップロード</v-btn>
               </v-card-actions>
             </v-card>
           </v-row>
@@ -93,7 +93,6 @@
                   prepend-icon="mdi-account-circle"
                   v-model="ownerName"
                   :counter="10"
-                  :rules="requiredRule"
                   label="オーナー名"
                   required
                 ></v-text-field>
@@ -101,7 +100,6 @@
                 <v-textarea
                   prepend-icon="mdi-comment-multiple-outline"
                   v-model="comment"
-                  :rules="requiredRule"
                   label="コメント"
                   required
                 ></v-textarea>
@@ -140,13 +138,19 @@
         </v-form>
       </v-col>
     </v-container>
+    <confirm-modal ref="dialog"></confirm-modal>
   </v-content>
 </template>
 
 <script lang="ts">
+import ConfirmModal from "../modules/ConfirmModal.vue";
 import { Vue, Component, Watch } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {
+    ConfirmModal
+  }
+})
 export default class Upload extends Vue {
   items: Array<string> = ["大会ゲスト許可", "フリーOKE"];
   ownerName: string = "";
@@ -162,6 +166,17 @@ export default class Upload extends Vue {
     if (this.searchTag.length > 4) {
       this.$nextTick(() => this.searchTag.pop());
     }
+  }
+
+  $refs!: {
+    dialog: ConfirmModal;
+  };
+
+  /**
+   * name
+   */
+  public dialogOpen() {
+    this.$refs.dialog.open();
   }
 }
 </script>
