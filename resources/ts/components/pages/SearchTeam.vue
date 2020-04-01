@@ -30,7 +30,7 @@
               <td>{{ item.file_name }}</td>
               <td>{{ item.date }}</td>
               <td>
-                <v-icon @click="dialogOpen">mdi-delete-forever</v-icon>
+                <v-icon @click="dialogOpen(item.file_name)">mdi-delete-forever</v-icon>
               </td>
             </tr>
           </tbody>
@@ -38,7 +38,7 @@
       </v-simple-table>
       <v-pagination v-model="page" class="my-4" :length="15"></v-pagination>
     </v-container>
-    <delete-modal ref="dialog"></delete-modal>
+    <delete-modal ref="dialog" :delObj="delObj"></delete-modal>
   </v-content>
 </template>
 
@@ -70,7 +70,7 @@ export default class SearchTeam extends Vue {
 オーナー名：M2
 チーム名：TケルダールN「HB8」
 コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
+      file_name: "TKNHB9.CHE",
       date: new Date("2019-10-19 11:44:30")
     },
     {
@@ -79,7 +79,7 @@ export default class SearchTeam extends Vue {
 オーナー名：M2
 チーム名：TケルダールN「HB8」
 コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
+      file_name: "TKNHB10.CHE",
       date: new Date("2019-10-19 11:44:30")
     },
     {
@@ -159,6 +159,7 @@ export default class SearchTeam extends Vue {
   ];
   itemDefault: string = "1";
   dialog: boolean = false;
+  delObj : string = "";
 
   $refs!: {
     dialog: DeleteModal;
@@ -166,7 +167,8 @@ export default class SearchTeam extends Vue {
   /**
    * name
    */
-  public dialogOpen() {
+  public dialogOpen(file_name: string) {
+    this.delObj = file_name;
     this.$refs.dialog.open();
   }
 }

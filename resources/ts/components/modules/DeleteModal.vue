@@ -2,7 +2,7 @@
   <v-row justify="center">
     <v-dialog v-model="dialog" max-width="290">
       <v-card>
-        <v-card-title class="headline">本当に削除しますか？</v-card-title>
+        <v-card-title class="headline">{{delObj}}を本当に削除しますか？</v-card-title>
 
         <v-card-text>削除する場合は、削除パスワードを入力してください。</v-card-text>
         <v-card-text>
@@ -30,12 +30,14 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
 export default class DeleteModal extends Vue {
   dialog: boolean = false;
 
+  @Prop()
+  delObj!: string;
   /**
    * name
    */
