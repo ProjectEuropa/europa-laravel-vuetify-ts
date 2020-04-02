@@ -6,6 +6,8 @@ import App from "./components/Main.vue";
 import router from './router'
 import { required, email, max } from 'vee-validate/dist/rules'
 import { extend, ValidationProvider } from 'vee-validate'
+import http from './plugins/http';
+Vue.use(http);
 
 Vue.use(Vuetify);
 Vue.component('ValidationProvider', ValidationProvider);
