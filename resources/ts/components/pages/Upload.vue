@@ -178,5 +178,19 @@ export default class Upload extends Vue {
   public dialogOpen() {
     this.$refs.dialog.open();
   }
+
+  /**
+   * name
+   */
+  public mounted() {
+    Vue.prototype.$http
+      .get("/api/user")
+      .then((res: any): void => {
+        console.log("OK")
+      })
+      .catch((err: any): void => {
+        console.error("かならずError出ます")
+      });
+  }
 }
 </script>
