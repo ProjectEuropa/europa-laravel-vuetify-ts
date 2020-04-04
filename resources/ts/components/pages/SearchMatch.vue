@@ -26,7 +26,9 @@
                 <v-icon>mdi-cloud-download-outline</v-icon>
               </td>
               <td>{{ item.name }}</td>
-              <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.comments }}</td>
+              <td style="white-space:pre-wrap; word-wrap:break-word;">
+                {{ item.comments }}
+              </td>
               <td>{{ item.file_name }}</td>
               <td>{{ item.date }}</td>
               <td>

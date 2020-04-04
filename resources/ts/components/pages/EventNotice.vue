@@ -11,15 +11,21 @@
                     <v-icon>mdi-upload</v-icon>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title class="headline white--text">イベント告知</v-list-item-title>
-                    <v-list-item-subtitle
-                      class="white--text"
-                    >イベントの告知が可能です。ここで登録した内容はInformationに表示されます。</v-list-item-subtitle>
+                    <v-list-item-title class="headline white--text"
+                      >イベント告知</v-list-item-title
+                    >
+                    <v-list-item-subtitle class="white--text"
+                      >イベントの告知が可能です。ここで登録した内容はInformationに表示されます。</v-list-item-subtitle
+                    >
                   </v-list-item-content>
                 </v-list-item>
               </v-card-title>
               <v-col cols="12" md="12">
-                <ValidationProvider v-slot="{ errors }" name="イベント名" rules="required|max:100">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="イベント名"
+                  rules="required|max:100"
+                >
                   <v-text-field
                     prepend-icon="mdi-calendar-edit"
                     v-model="eventName"
@@ -29,7 +35,11 @@
                     required
                   ></v-text-field>
                 </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" name="イベント詳細情報" rules="required|max:100">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="イベント詳細情報"
+                  rules="required|max:100"
+                >
                   <v-textarea
                     prepend-icon="mdi-comment-multiple-outline"
                     v-model="eventDetails"
@@ -116,7 +126,11 @@
                   ></v-date-picker>
                 </v-menu>
 
-                <v-select prepend-icon="mdi-help-circle" :items="items" v-model="itemDefault"></v-select>
+                <v-select
+                  prepend-icon="mdi-help-circle"
+                  :items="items"
+                  v-model="itemDefault"
+                ></v-select>
               </v-col>
               <v-card-actions class="justify-center">
                 <v-btn large block class="primary">イベント情報登録</v-btn>
