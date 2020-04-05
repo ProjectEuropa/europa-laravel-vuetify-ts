@@ -25,10 +25,10 @@
               <td>
                 <v-icon>mdi-cloud-download-outline</v-icon>
               </td>
-              <td>{{ item.name }}</td>
-              <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.comments }}</td>
+              <td>{{ item.upload_owner_name }}</td>
+              <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
               <td>{{ item.file_name }}</td>
-              <td>{{ item.date }}</td>
+              <td>{{ item.created_at }}</td>
               <td>
                 <v-icon @click="dialogOpen(item.file_name)">mdi-delete-forever</v-icon>
               </td>
@@ -46,7 +46,7 @@
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import DeleteModal from "../modules/DeleteModal.vue";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -54,99 +54,8 @@ import { Vue, Component } from "vue-property-decorator";
   }
 })
 export default class SearchTeam extends Vue {
-  teams: Array<FileDataObject> = [
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB9.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB10.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    }
-  ];
-  page: Number = 1;
+  teams: Array<FileDataObject> = [];
+  page: number = 1;
   items: Array<SelectBoxTextValueObject> = [
     {
       text: "投稿日時の新しい順",
@@ -159,7 +68,7 @@ export default class SearchTeam extends Vue {
   ];
   itemDefault: string = "1";
   dialog: boolean = false;
-  delObj : string = "";
+  delObj: string = "";
 
   $refs!: {
     dialog: DeleteModal;
@@ -170,6 +79,33 @@ export default class SearchTeam extends Vue {
   public dialogOpen(file_name: string) {
     this.delObj = file_name;
     this.$refs.dialog.open();
+  }
+
+  /**
+   * name
+   */
+  public created() {
+    this.page = isNaN(Number(this.$route.query.page)) ? 1 : Number(this.$route.query.page);
+    console.log(this.page);
+    Vue.prototype.$http
+      .get(`/api/search?page=${this.page}`)
+      .then((res: any): void => {
+        console.log(res.data.data);
+        this.teams = res.data.data;
+      });
+  }
+
+  /**
+   * watch
+   */
+  @Watch("page")
+  onPageChanged() {
+    Vue.prototype.$http
+      .get(`/api/search?page=${this.page}`)
+      .then((res: any): void => {
+        console.log(res.data.data);
+        this.teams = res.data.data;
+      });
   }
 }
 </script>

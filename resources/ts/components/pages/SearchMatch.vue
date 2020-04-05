@@ -26,9 +26,9 @@
                 <v-icon>mdi-cloud-download-outline</v-icon>
               </td>
               <td>{{ item.name }}</td>
-              <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.comments }}</td>
+              <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
               <td>{{ item.file_name }}</td>
-              <td>{{ item.date }}</td>
+              <td>{{ item.created_at }}</td>
               <td>
                 <v-icon>mdi-delete-forever</v-icon>
               </td>
@@ -44,72 +44,11 @@
 <script lang="ts">
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 
 @Component
 export default class SearchMatch extends Vue {
-  teams: Array<FileDataObject> = [
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `新春演習大会2019正順`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    }
-  ];
+  teams: Array<FileDataObject> = [];
   page: number = 1;
   items: Array<SelectBoxTextValueObject> = [
     {
