@@ -49,66 +49,6 @@ import { Vue, Component } from "vue-property-decorator";
 @Component
 export default class SumDLMatchData extends Vue {
   teams: Array<FileDataObject> = [
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    },
-    {
-      name: "M2",
-      comments: `秋季演習大会2019`,
-      file_name: "TKNHB8.CHE",
-      date: new Date("2019-10-19 11:44:30")
-    }
   ];
   page: Number = 1;
   items: Array<SelectBoxTextValueObject> = [
