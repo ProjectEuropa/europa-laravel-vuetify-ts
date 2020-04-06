@@ -4,9 +4,9 @@
       <h1 class="display-1 mb-4 text--darken-1">Search Team Data</h1>
       <h4 class="subheading">チームデータの検索が可能です</h4>
       <v-form class="d-flex justify-md-space-center justify-sm-space-between">
-        <v-text-field label="Solo" placeholder="keyword" solo></v-text-field>
-        <v-select :items="items" v-model="itemDefault" solo></v-select>
-        <v-btn class="primary">Search</v-btn>
+        <v-text-field v-model="keyword" label="Solo" placeholder="keyword" solo></v-text-field>
+        <v-select :items="items" v-model="orderType" solo></v-select>
+        <v-btn class="primary" @click="onClickSearch()">Search</v-btn>
       </v-form>
       <v-simple-table dense>
         <template v-slot:default>
@@ -47,6 +47,9 @@ import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import DeleteModal from "../modules/DeleteModal.vue";
 import { Vue, Component, Watch } from "vue-property-decorator";
+import VueRouter from "vue-router";
+// Hook しないと使えない
+Component.registerHooks(["beforeRouteUpdate"]);
 
 @Component({
   components: {
@@ -55,6 +58,7 @@ import { Vue, Component, Watch } from "vue-property-decorator";
 })
 export default class SearchTeam extends Vue {
   teams: Array<FileDataObject> = [];
+  keyword: string | (string | null)[] = "";
   page: number = 1;
   items: Array<SelectBoxTextValueObject> = [
     {
@@ -66,7 +70,7 @@ export default class SearchTeam extends Vue {
       value: "2"
     }
   ];
-  itemDefault: string = "1";
+  orderType: string | (string | null)[] = "1";
   dialog: boolean = false;
   delObj: string = "";
 
@@ -85,14 +89,7 @@ export default class SearchTeam extends Vue {
    * name
    */
   public created() {
-    this.page = isNaN(Number(this.$route.query.page)) ? 1 : Number(this.$route.query.page);
-    console.log(this.page);
-    Vue.prototype.$http
-      .get(`/api/search?page=${this.page}`)
-      .then((res: any): void => {
-        console.log(res.data.data);
-        this.teams = res.data.data;
-      });
+    this.search();
   }
 
   /**
@@ -100,10 +97,43 @@ export default class SearchTeam extends Vue {
    */
   @Watch("page")
   onPageChanged() {
+    this.$router.push({
+      path: "/search/team",
+      query: {
+        page: this.page.toString(),
+        keyword: this.keyword,
+        orderType: this.orderType
+      }
+    });
+    this.search();
+  }
+
+  /**
+   * search
+   */
+  public onClickSearch() {
+    this.$router.push({
+      path: "/search/team",
+      query: {
+        keyword: this.keyword,
+        orderType: this.orderType
+      }
+    });
+    this.search();
+  }
+
+  /**
+   * search
+   */
+  public search() {
+    this.page = isNaN(Number(this.$route.query.page))
+      ? 1
+      : Number(this.$route.query.page);
     Vue.prototype.$http
-      .get(`/api/search?page=${this.page}`)
+      .get(
+        `/api/search?page=${this.page}&keyword=${this.keyword}&orderType=${this.orderType}`
+      )
       .then((res: any): void => {
-        console.log(res.data.data);
         this.teams = res.data.data;
       });
   }
