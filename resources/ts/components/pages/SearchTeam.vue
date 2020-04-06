@@ -50,9 +50,6 @@ import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import DeleteModal from "../modules/DeleteModal.vue";
 import { Vue, Component, Watch } from "vue-property-decorator";
-import VueRouter from "vue-router";
-// Hook しないと使えない
-Component.registerHooks(["beforeRouteUpdate"]);
 
 @Component({
   components: {
