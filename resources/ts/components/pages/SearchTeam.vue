@@ -4,7 +4,7 @@
       <h1 class="display-1 mb-4 text--darken-1">Search Team Data</h1>
       <h4 class="subheading">チームデータの検索が可能です</h4>
       <v-form class="d-flex justify-md-space-center justify-sm-space-between">
-        <v-text-field v-model="keyword" label="Solo" placeholder="keyword" solo></v-text-field>
+        <v-text-field v-model="keyword" label="Solo" @keyup.enter="onClickSearch()" placeholder="keyword" solo></v-text-field>
         <v-select :items="items" v-model="orderType" solo></v-select>
         <v-btn class="primary" @click="onClickSearch()">Search</v-btn>
       </v-form>
@@ -36,7 +36,7 @@
           </tbody>
         </template>
       </v-simple-table>
-      <v-pagination v-model="page" class="my-4" :length="15"></v-pagination>
+      <v-pagination v-model="page" :length="pageLength"></v-pagination>
     </v-container>
     <delete-modal ref="dialog" :delObj="delObj"></delete-modal>
     <v-overlay :value="overlay">
@@ -74,6 +74,7 @@ export default class SearchTeam extends Vue {
   dialog: boolean = false;
   delObj: string = "";
   overlay: boolean = false;
+  pageLength: number = 1;
 
   $refs!: {
     dialog: DeleteModal;
@@ -137,6 +138,7 @@ export default class SearchTeam extends Vue {
       )
       .then((res: any): void => {
         this.teams = res.data.data;
+        this.pageLength = res.data.last_page;
         this.overlay = false;
       })
       .catch((error: any): void => {
