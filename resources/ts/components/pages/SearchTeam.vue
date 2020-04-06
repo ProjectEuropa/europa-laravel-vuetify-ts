@@ -39,6 +39,9 @@
       <v-pagination v-model="page" class="my-4" :length="15"></v-pagination>
     </v-container>
     <delete-modal ref="dialog" :delObj="delObj"></delete-modal>
+    <v-overlay :value="overlay">
+      <v-progress-circular color="primary" indeterminate size="64"></v-progress-circular>
+    </v-overlay>
   </v-content>
 </template>
 
@@ -73,6 +76,7 @@ export default class SearchTeam extends Vue {
   orderType: string | (string | null)[] = "1";
   dialog: boolean = false;
   delObj: string = "";
+  overlay: boolean = false;
 
   $refs!: {
     dialog: DeleteModal;
@@ -129,12 +133,18 @@ export default class SearchTeam extends Vue {
     this.page = isNaN(Number(this.$route.query.page))
       ? 1
       : Number(this.$route.query.page);
+    this.overlay = true;
     Vue.prototype.$http
       .get(
         `/api/search?page=${this.page}&keyword=${this.keyword}&orderType=${this.orderType}`
       )
       .then((res: any): void => {
         this.teams = res.data.data;
+        this.overlay = false;
+      })
+      .catch((error: any): void => {
+        alert("検索実行時にエラーが発生しました")
+        this.overlay = false;
       });
   }
 }
