@@ -11,9 +11,9 @@ class SearchTest extends TestCase
      *
      * @return void
      */
-    public function test_検索のテスト()
+    public function test_チーム検索のテスト()
     {
-        $response = $this->json('GET', '/api/search');
+        $response = $this->json('GET', '/api/search/team');
 
         $json = (json_decode($response->getContent()));
 

@@ -3,8 +3,7 @@ import Router from 'vue-router'
 import Top from './components/pages/Top.vue'
 import Upload from './components/pages/Upload.vue'
 import SimpleUpload from './components/pages/SimpleUpload.vue'
-import SearchTeam from './components/pages/SearchTeam.vue'
-import SearchMatch from './components/pages/SearchMatch.vue'
+import Search from './components/pages/Search.vue'
 import SumDLTeamData from './components/pages/SumDLTeamData.vue'
 import SumDLMatchData from './components/pages/SumDLMatchData.vue'
 import Login from './components/pages/Login.vue'
@@ -33,14 +32,9 @@ const router = new Router({
       component: SimpleUpload,
     },
     {
-      path: '/search/team',
-      name: 'SearchTeam',
-      component: SearchTeam,
-    },
-    {
-      path: '/search/match',
-      name: 'SearchMatch',
-      component: SearchMatch,
+      path: '/search/:searchType',
+      name: 'Search',
+      component: Search,
     },
     {
       path: '/sumdownload/team',
