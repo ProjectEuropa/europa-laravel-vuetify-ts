@@ -1,10 +1,16 @@
 <template>
   <v-content>
     <v-container fluid>
-      <h1 class="display-1 mb-4 text--darken-1">Search Team Data</h1>
-      <h4 class="subheading">チームデータの検索が可能です</h4>
+      <h1 class="display-1 mb-4 text--darken-1">Search {{capitalizeFirstLetter(searchType)}} Data</h1>
+      <h4 class="subheading">{{ searchTypeJa }}データの検索が可能です</h4>
       <v-form class="d-flex justify-md-space-center justify-sm-space-between">
-        <v-text-field v-model="keyword" label="Solo" @keyup.enter="onClickSearch()" placeholder="keyword" solo></v-text-field>
+        <v-text-field
+          v-model="keyword"
+          label="Solo"
+          @keyup.enter="onClickSearch()"
+          placeholder="keyword"
+          solo
+        ></v-text-field>
         <v-select :items="items" v-model="orderType" solo></v-select>
         <v-btn class="primary" @click="onClickSearch()">Search</v-btn>
       </v-form>
@@ -50,7 +56,9 @@ import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import DeleteModal from "../modules/DeleteModal.vue";
 import { Vue, Component, Watch } from "vue-property-decorator";
+import VueRouter from "vue-router";
 
+Component.registerHooks(["beforeRouteUpdate"]);
 @Component({
   components: {
     DeleteModal
@@ -75,6 +83,8 @@ export default class SearchTeam extends Vue {
   delObj: string = "";
   overlay: boolean = false;
   pageLength: number = 1;
+  searchType: string = "";
+  searchTypeJa: string = "";
 
   $refs!: {
     dialog: DeleteModal;
@@ -90,7 +100,16 @@ export default class SearchTeam extends Vue {
   /**
    * name
    */
+  public capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  /**
+   * name
+   */
   public created() {
+    this.searchType = this.$route.params.searchType;
+    this.searchTypeJa = this.searchType === "team" ? "チーム" : "マッチ";
     this.search();
   }
 
@@ -100,14 +119,13 @@ export default class SearchTeam extends Vue {
   @Watch("page")
   onPageChanged() {
     this.$router.push({
-      path: "/search/team",
+      name: "Search",
       query: {
         page: this.page.toString(),
         keyword: this.keyword,
         orderType: this.orderType
       }
     });
-    this.search();
   }
 
   /**
@@ -115,13 +133,12 @@ export default class SearchTeam extends Vue {
    */
   public onClickSearch() {
     this.$router.push({
-      path: "/search/team",
+      name: "Search",
       query: {
         keyword: this.keyword,
         orderType: this.orderType
       }
     });
-    this.search();
   }
 
   /**
@@ -134,7 +151,7 @@ export default class SearchTeam extends Vue {
     this.overlay = true;
     Vue.prototype.$http
       .get(
-        `/api/search?page=${this.page}&keyword=${this.keyword}&orderType=${this.orderType}`
+        `/api/search/${this.searchType}?page=${this.page}&keyword=${this.keyword}&orderType=${this.orderType}`
       )
       .then((res: any): void => {
         this.teams = res.data.data;
@@ -142,9 +159,16 @@ export default class SearchTeam extends Vue {
         this.overlay = false;
       })
       .catch((error: any): void => {
-        alert("検索実行時にエラーが発生しました")
+        alert("検索実行時にエラーが発生しました");
         this.overlay = false;
       });
+  }
+
+  public beforeRouteUpdate(to: VueRouter, from: VueRouter, next: any) {
+    next();
+    this.searchType = this.$route.params.searchType;
+    this.searchTypeJa = this.searchType === "team" ? "チーム" : "マッチ";
+    this.search();
   }
 }
 </script>

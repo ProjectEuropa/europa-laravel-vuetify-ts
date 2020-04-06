@@ -23,5 +23,5 @@ Route::middleware('api')->get('/file', function () {
 });
 
 Route::group(['middleware' => ['api']], function () {
-  Route::get('search', 'Api\SearchController@search');
+  Route::get('search/{searchType}', 'Api\SearchController@search');
 });
