@@ -4,7 +4,7 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loade
 import "vuetify/dist/vuetify.min.css";
 import App from "./components/Main.vue";
 import router from './router'
-import { required, email, max } from 'vee-validate/dist/rules'
+import { required, email, max, confirmed } from 'vee-validate/dist/rules'
 import { extend, ValidationProvider } from 'vee-validate'
 import http from './plugins/http';
 Vue.use(http);
@@ -24,6 +24,10 @@ extend('email', {
   ...email,
   message: 'メールアドレスの形式が不正です',
 })
+extend("confirmed", {
+  ...confirmed,
+  message: "再確認パスワードと入力が一致していません"
+});
 
 new Vuetify({
   icons: {
