@@ -4,8 +4,7 @@ import Top from './components/pages/Top.vue'
 import Upload from './components/pages/Upload.vue'
 import SimpleUpload from './components/pages/SimpleUpload.vue'
 import Search from './components/pages/Search.vue'
-import SumDLTeamData from './components/pages/SumDLTeamData.vue'
-import SumDLMatchData from './components/pages/SumDLMatchData.vue'
+import SumDL from './components/pages/SumDL.vue'
 import Login from './components/pages/Login.vue'
 import Register from './components/pages/Register.vue'
 import Information from './components/pages/Information.vue'
@@ -37,14 +36,9 @@ const router = new Router({
       component: Search,
     },
     {
-      path: '/sumdownload/team',
-      name: 'SumDLTeamData',
-      component: SumDLTeamData,
-    },
-    {
-      path: '/sumdownload/match',
-      name: 'SumDLMatchData',
-      component: SumDLMatchData,
+      path: '/sumdownload/:searchType',
+      name: 'SumDL',
+      component: SumDL,
     },
     {
       path: '/login',
