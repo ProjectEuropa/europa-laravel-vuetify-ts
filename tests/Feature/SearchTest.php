@@ -117,11 +117,12 @@ class SearchTest extends TestCase
 
         factory(File::class)->create(
           [
+            'data_type' => '1',
             'file_comment' => '文字列'
           ]
         );
 
-        $response = $this->json('GET', '/api/search/match?keyword=文字列');
+        $response = $this->json('GET', '/api/search/team?keyword=文字列');
         $json = (json_decode($response->getContent()));
         $this->assertStringContainsString($json->data[0]->file_comment, '文字列');
 
