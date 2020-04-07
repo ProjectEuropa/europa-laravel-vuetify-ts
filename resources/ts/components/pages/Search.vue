@@ -36,7 +36,7 @@
               <td>{{ item.file_name }}</td>
               <td>{{ item.created_at }}</td>
               <td>
-                <v-icon @click="dialogOpen(item.file_name)">mdi-delete-forever</v-icon>
+                <v-icon @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
               </td>
             </tr>
           </tbody>
@@ -54,6 +54,7 @@
 <script lang="ts">
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
+import { TargetDeleteFileObject } from "../../vue-data-entity/TargetDeleteFileObject";
 import DeleteModal from "../modules/DeleteModal.vue";
 import { Vue, Component, Watch } from "vue-property-decorator";
 import VueRouter from "vue-router";
@@ -80,7 +81,7 @@ export default class SearchTeam extends Vue {
   ];
   orderType: string | (string | null)[] = "1";
   dialog: boolean = false;
-  delObj: string = "";
+  delObj: TargetDeleteFileObject = { id: 0, file_name: "" };
   overlay: boolean = false;
   pageLength: number = 1;
   searchType: string = "";
@@ -92,8 +93,9 @@ export default class SearchTeam extends Vue {
   /**
    * name
    */
-  public dialogOpen(file_name: string) {
-    this.delObj = file_name;
+  public dialogOpen(file_name: string, id: number) {
+    this.delObj.file_name = file_name;
+    this.delObj.id = id;
     this.$refs.dialog.open();
   }
 
@@ -125,7 +127,7 @@ export default class SearchTeam extends Vue {
         keyword: this.keyword,
         orderType: this.orderType
       }
-    });
+    }).catch(err => {});
   }
 
   /**
@@ -138,7 +140,7 @@ export default class SearchTeam extends Vue {
         keyword: this.keyword,
         orderType: this.orderType
       }
-    });
+    }).catch(err => {});
   }
 
   /**
