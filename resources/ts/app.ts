@@ -4,13 +4,14 @@ import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loade
 import "vuetify/dist/vuetify.min.css";
 import App from "./components/Main.vue";
 import router from './router'
-import { required, email, max, confirmed } from 'vee-validate/dist/rules'
-import { extend, ValidationProvider } from 'vee-validate'
+import { required, email, max, min, confirmed } from 'vee-validate/dist/rules'
+import { extend, ValidationProvider, ValidationObserver } from 'vee-validate'
 import http from './plugins/http';
 Vue.use(http);
 
 Vue.use(Vuetify);
 Vue.component('ValidationProvider', ValidationProvider);
+Vue.component('ValidationObserver', ValidationObserver);
 
 extend('required', {
   ...required,
@@ -18,7 +19,11 @@ extend('required', {
 })
 extend('max', {
   ...max,
-  message: '{_field_} が {length} 文字数を超えています。',
+  message: '{_field_} が {length} 文字数を超えています',
+})
+extend('min', {
+  ...min,
+  message: '{_field_} は最低 {length} 文字以上必要です',
 })
 extend('email', {
   ...email,
@@ -36,6 +41,8 @@ new Vuetify({
 });
 new Vue({
   router: router,
-  render: h => h(App),
+  components: {
+    app: App
+  },
   vuetify: new Vuetify()
 }).$mount('#app')
