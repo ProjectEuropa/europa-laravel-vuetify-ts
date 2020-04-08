@@ -29,7 +29,7 @@
           <tbody>
             <tr v-for="(item, index) in teams" :key="index">
               <td>
-                <v-icon>mdi-cloud-download-outline</v-icon>
+                <v-icon @click="download(item.id)">mdi-cloud-download-outline</v-icon>
               </td>
               <td>{{ item.upload_owner_name }}</td>
               <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
@@ -120,27 +120,38 @@ export default class SearchTeam extends Vue {
    */
   @Watch("page")
   onPageChanged() {
-    this.$router.push({
-      name: "Search",
-      query: {
-        page: this.page.toString(),
-        keyword: this.keyword,
-        orderType: this.orderType
-      }
-    }).catch(err => {});
+    this.$router
+      .push({
+        name: "Search",
+        query: {
+          page: this.page.toString(),
+          keyword: this.keyword,
+          orderType: this.orderType
+        }
+      })
+      .catch(err => {});
   }
 
   /**
    * search
    */
   public onClickSearch() {
-    this.$router.push({
-      name: "Search",
-      query: {
-        keyword: this.keyword,
-        orderType: this.orderType
-      }
-    }).catch(err => {});
+    this.$router
+      .push({
+        name: "Search",
+        query: {
+          keyword: this.keyword,
+          orderType: this.orderType
+        }
+      })
+      .catch(err => {});
+  }
+
+  /**
+   * download
+   */
+  public download(id: number) {
+    location.href = `/auto/download/${id}`;
   }
 
   /**
