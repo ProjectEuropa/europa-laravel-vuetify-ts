@@ -21,7 +21,7 @@
           <thead>
             <tr>
               <th class="text-left">
-                <v-checkbox label="全チェック"></v-checkbox>
+                <v-checkbox label="全チェック" @change="checkAllOrNot" v-model="checkAll"></v-checkbox>
               </th>
               <th class="text-left">オーナー名</th>
               <th class="text-left">コメント</th>
@@ -32,7 +32,7 @@
           <tbody>
             <tr v-for="(item, index) in teams" :key="index">
               <td>
-                <v-checkbox></v-checkbox>
+                <v-checkbox :value="item.id" name="checkedId[]" v-model="checkedId"></v-checkbox>
               </td>
               <td>{{ item.upload_owner_name }}</td>
               <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
@@ -79,6 +79,8 @@ export default class SumDLTeamData extends Vue {
   searchTypeJa: string = "";
   orderType: string | (string | null)[] = "1";
   keyword: string | (string | null)[] = "";
+  checkAll: boolean = false;
+  checkedId: Array<number> = [];
 
   /**
    * name
@@ -101,26 +103,43 @@ export default class SumDLTeamData extends Vue {
    */
   @Watch("page")
   onPageChanged() {
-    this.$router.push({
-      name: "SumDL",
-      query: {
-        page: this.page.toString(),
-        keyword: this.keyword,
-        orderType: this.orderType
-      }
-    });
+    this.$router
+      .push({
+        name: "SumDL",
+        query: {
+          page: this.page.toString(),
+          keyword: this.keyword,
+          orderType: this.orderType
+        }
+      })
+      .catch(err => {});
   }
   /**
    * search
    */
   public onClickSearch() {
-    this.$router.push({
-      name: "SumDL",
-      query: {
-        keyword: this.keyword,
-        orderType: this.orderType
-      }
-    });
+    this.$router
+      .push({
+        name: "SumDL",
+        query: {
+          keyword: this.keyword,
+          orderType: this.orderType
+        }
+      })
+      .catch(err => {});
+  }
+
+  /**
+   * checkAllOrNot
+   */
+  public checkAllOrNot() {
+    if (this.checkAll) {
+      this.teams.forEach(e => {
+        this.checkedId.push(e.id);
+      });
+    } else {
+      this.checkedId = [];
+    }
   }
 
   /**
@@ -139,6 +158,8 @@ export default class SumDLTeamData extends Vue {
         this.teams = res.data.data;
         this.pageLength = res.data.last_page;
         this.overlay = false;
+        this.checkAll = false;
+        this.checkedId = [];
       })
       .catch((error: any): void => {
         alert("検索実行時にエラーが発生しました");
