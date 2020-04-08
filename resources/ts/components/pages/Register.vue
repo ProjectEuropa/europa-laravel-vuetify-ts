@@ -9,7 +9,7 @@
                 <h4>Register</h4>
               </v-card-title>
               <ValidationObserver ref="observer">
-                <v-form method="POST" acction="/register" id="register">
+                <v-form method="POST" action="/register" id="register">
                   <input type="hidden" name="_token" :value="csrf" />
 
                   <v-col cols="12" md="12">

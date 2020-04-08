@@ -8,6 +8,7 @@ Route::group(['middleware' => 'auth.very_basic'], function() {
     return view('index');
   })->where('any', '[^auth].*$');
 
+  Route::post('/login', 'Auth\LoginController@login');
   Route::post('/register', 'Auth\RegisterController@register');
   Route::get('/auth/logout', 'Auth\LoginController@logout');
 });
