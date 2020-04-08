@@ -90,7 +90,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="auth">
           <v-list-item-action>
             <v-icon>mdi-account</v-icon>
           </v-list-item-action>
@@ -101,7 +101,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="!auth">
           <v-list-item-action>
             <v-icon>mdi-login</v-icon>
           </v-list-item-action>
@@ -112,7 +112,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="!auth">
           <v-list-item-action>
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-action>
@@ -122,12 +122,26 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <v-list-item v-if="auth">
+          <v-list-item-action>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>
+              <a class="black--text" href="/auth/logout">Logout</a>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app clipped-left color="blue darken-3 white--text">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Europa - Carnage Heart EXA Uploader -</v-toolbar-title>
+      <v-spacer></v-spacer>
+
+      <v-toolbar-title v-if="auth">Login As: {{auth.name}}</v-toolbar-title>
     </v-app-bar>
 
     <router-view></router-view>
@@ -139,9 +153,13 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { AuthUserObject } from "../vue-data-entity/AuthUserObject";
+import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class App extends Vue {
   drawer: boolean = false;
+
+  @Prop()
+  auth!: AuthUserObject | null;
 }
 </script>

@@ -7,7 +7,8 @@
         <title>Laravel</title>
     </head>
     <body>
-      <div id="app">
+      <div id="app" >
+        <app :auth="{{ Auth::user() ?? 'null' }}" />
       </div>
       <script src="{{ mix('/js/app.js') }}"></script>
     </body>
