@@ -12,7 +12,7 @@
               <v-btn fab text small @click="next">
                 <v-icon small>mdi-chevron-right</v-icon>
               </v-btn>
-              <v-toolbar-title>{{ title }}</v-toolbar-title>
+              <v-toolbar-title>{{ title() }}</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-menu bottom right>
                 <template v-slot:activator="{ on }">
@@ -49,7 +49,7 @@
               v-model="focus"
               color="primary"
               :events="events"
-              :event-color="getEventColor"
+              :event-color="'blue'"
               :event-margin-bottom="3"
               :now="today"
               :type="type"
@@ -65,14 +65,12 @@
               full-width
               offset-x
             >
-              <v-card color="grey lighten-4" min-width="350px" flat>
-                <v-toolbar :color="selectedEvent.color" dark>
+              <v-card color="grey lighten-4" min-width="350px" flat v-if="selectedEvent">
+                <v-toolbar :color="'blue'" dark>
                   <v-btn icon>
                     <v-icon>mdi-pencil</v-icon>
                   </v-btn>
-                  <v-toolbar-title
-                    v-html="selectedEvent.name"
-                  ></v-toolbar-title>
+                  <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                   <v-spacer></v-spacer>
                   <v-btn icon>
                     <v-icon>mdi-heart</v-icon>
@@ -85,9 +83,7 @@
                   <span v-html="selectedEvent.details"></span>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn text color="secondary" @click="selectedOpen = false"
-                    >Cancel</v-btn
-                  >
+                  <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
                 </v-card-actions>
               </v-card>
             </v-menu>
@@ -102,7 +98,17 @@
 import { ScheduleDataObject } from "../../vue-data-entity/ScheduleDataObject";
 import { Vue, Component } from "vue-property-decorator";
 import * as Moment from "moment";
-// import VCalendar from 'vuetify';
+import {
+  CalendarTimestamp,
+  CalendarFormatter,
+  CalendarEventParsed,
+  CalendarEventVisual,
+  CalendarEventColorFunction,
+  CalendarEventNameFunction,
+  CalendarDaySlotScope,
+  CalendarDayBodySlotScope,
+  CalendarEventOverlapMode
+} from "vuetify/types";
 
 // import { v-calendar } from 'v-calendar'
 
@@ -111,29 +117,29 @@ export default class Information extends Vue {
   private get calendarInstance(): Vue & {
     prev: () => void;
     next: () => void;
-    getFormatter: (format: any) => any;
-    checkChange(): (format: any) => any;
+    getFormatter: (options: object) => CalendarFormatter;
+    checkChange(): () => void;
   } {
     return this.$refs.calendar as Vue & {
       prev: () => void;
       next: () => void;
-      getFormatter: (format: any) => any;
-      checkChange(): (format: any) => any;
+      getFormatter: (options: object) => CalendarFormatter;
+      checkChange(): () => void;
     };
   }
 
   today: string = Moment().format("2019-01-01");
   focus: string = Moment().format("2019-01-01");
   type: string = "month";
-  typeToLabel: any = {
+  typeToLabel: object = {
     month: "Month",
     week: "Week",
     day: "Day",
     "4day": "4 Days"
   };
-  start: any = null;
-  end: any = null;
-  selectedEvent: any = {};
+  start: CalendarTimestamp | null = null;
+  end: CalendarTimestamp | null = null;
+  selectedEvent: ScheduleDataObject | null = null;
   selectedElement: any = null;
   selectedOpen: boolean = false;
   events: Array<ScheduleDataObject> = [
@@ -264,14 +270,14 @@ export default class Information extends Vue {
     }
   ];
 
-  get gettitle() {
+  public title(): string {
     const { start, end } = this;
     if (!start || !end) {
       return "";
     }
 
-    const startMonth = this.monthFormatter();
-    const endMonth = this.monthFormatter();
+    const startMonth = 1 + Moment(start.date).month();
+    const endMonth = 1 + Moment(end.date).month();
     const suffixMonth = startMonth === endMonth ? "" : endMonth;
 
     const startYear = start.year;
@@ -283,36 +289,28 @@ export default class Information extends Vue {
 
     switch (this.type) {
       case "month":
-        return `${startYear}年${startMonth}`;
+        return `${startYear}年${startMonth}月`;
       case "week":
       case "4day":
-        return `${startYear}年${startMonth}${startDay}日 - ${suffixYear}年${suffixMonth}${endDay}日`;
+        return `${startYear}年${startMonth}月${startDay}日 - ${suffixYear}年${suffixMonth}月${endDay}日`;
       case "day":
-        return `${startYear}年${startMonth}${startDay}日`;
+        return `${startYear}年${startMonth}月${startDay}日`;
     }
     return "";
   }
-  monthFormatter(): any {
+  monthFormatter(): CalendarFormatter {
     return this.calendarInstance.getFormatter({
       timeZone: "Asia/Tokyo",
       month: "long"
     });
   }
-  mounted(): any {
-    this.calendarInstance.checkChange();
-  }
-  // methods: {
 
   viewDay({ date }: { date: string }) {
     this.focus = date;
     this.type = "day";
   }
 
-  getEventColor(event: any) {
-    return event.color;
-  }
   setToday() {
-    122;
     this.focus = this.today;
   }
   prev(): void {
@@ -321,7 +319,13 @@ export default class Information extends Vue {
   next(): void {
     this.calendarInstance.next();
   }
-  showEvent({ nativeEvent, event }: { nativeEvent: any; event: any }) {
+  showEvent({
+    nativeEvent,
+    event
+  }: {
+    nativeEvent: any;
+    event: ScheduleDataObject;
+  }) {
     const open = () => {
       this.selectedEvent = event;
       this.selectedElement = nativeEvent.target;
@@ -337,16 +341,20 @@ export default class Information extends Vue {
 
     nativeEvent.stopPropagation();
   }
-  updateRange({ start, end }: { start: null; end: String }) {
-    // You could load events from an outside source (like database) now that we have the start and end dates on the calendar
+  updateRange({
+    start,
+    end
+  }: {
+    start: CalendarTimestamp;
+    end: CalendarTimestamp;
+  }) {
     this.start = start;
     this.end = end;
   }
-  nth(d: any) {
+  nth(d: number): string {
     return d > 3 && d < 21
       ? "th"
       : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
   }
-  // }
 }
 </script>
