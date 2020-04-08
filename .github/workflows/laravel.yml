@@ -10,7 +10,7 @@ jobs:
   laravel-tests:
 
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:10.8
@@ -21,7 +21,7 @@ jobs:
         ports:
         - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-    
+
     steps:
     - uses: actions/checkout@v2
     - name: Copy .env
@@ -29,7 +29,7 @@ jobs:
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
     - name: Generate key
-      run: php artisan key:generate
+      run: php artisan key:generate --env=testing
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Execute Migration
