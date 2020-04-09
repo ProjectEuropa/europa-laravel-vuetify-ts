@@ -57,7 +57,7 @@
 <script lang="ts">
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
-import { PaginateObject } from "../../laravel-pagenation-entity/PaginateObject";
+import { FilePaginateObject } from "../../laravel-data-entity/FilePaginateObject";
 import { Vue, Component, Watch } from "vue-property-decorator";
 import VueRouter from "vue-router";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
@@ -164,7 +164,7 @@ export default class SumDLTeamData extends Vue {
       .get(
         `/api/sumDLSearch/${this.searchType}?page=${this.page}&keyword=${this.keyword}&orderType=${this.orderType}`
       )
-      .then((res: AxiosResponse<PaginateObject>): void => {
+      .then((res: AxiosResponse<FilePaginateObject>): void => {
         this.teams = res.data.data;
         this.pageLength = res.data.last_page;
         this.overlay = false;
