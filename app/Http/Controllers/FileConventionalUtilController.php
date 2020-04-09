@@ -20,12 +20,12 @@ class FileConventionalUtilController extends Controller
         // CHEバイナリデータ取得
         $fileData = $file->file_data;
         // 取得したバイナリデータを書き込み
-        $cheData = '.CHE';
+        $cheData = public_path('.CHE');
         file_put_contents($cheData, $fileData);
         $headers = [
             'Content-Type: application/CHE',
         ];
-        return response()->download($cheData, $title, $headers);
+        return response()->download($cheData, $title, $headers)->deleteFileAfterSend(true);
     }
 
     public function sumDownload(Request $request)
@@ -42,7 +42,7 @@ class FileConventionalUtilController extends Controller
         }
         // Zip用ファイル全て取得
         $allZipfiles = glob(public_path('prezipfiles/*'));
-        Madzipper::make('zipdldir/sum.zip')->add($allZipfiles)->close();
+        Madzipper::make(public_path('zipdldir/sum.zip'))->add($allZipfiles)->close();
         // ZIPファイル作成用ディレクトリに格納中のファイルを全て削除
         $files = glob(public_path('prezipfiles/*'));
         foreach ($files as $file) {
