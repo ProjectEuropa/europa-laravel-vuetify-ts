@@ -26,4 +26,23 @@ class DownloadTest extends TestCase
 
         $response->assertStatus(200);
     }
+
+    /**
+     * .
+     *
+     * @return void
+     */
+    public function test_一括ダウンロードテスト()
+    {
+        factory(File::class, 50)->create();
+        $fileIds = File::select('id')->inRandomOrder()->limit(10)->get()->toArray();
+
+        $response = $this->post("/sumDownload",
+            [
+                'checkedId' => $fileIds,
+            ]
+        );
+
+        $response->assertStatus(200);
+    }
 }

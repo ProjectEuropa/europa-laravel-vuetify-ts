@@ -16,33 +16,36 @@
         <v-select :items="items" v-model="orderType" solo></v-select>
         <v-btn class="primary" @click="onClickSearch()">Search</v-btn>
       </v-form>
-      <v-simple-table dense>
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">
-                <v-checkbox label="全チェック" @change="checkAllOrNot" v-model="checkAll"></v-checkbox>
-              </th>
-              <th class="text-left">オーナー名</th>
-              <th class="text-left">コメント</th>
-              <th class="text-left">ファイル名</th>
-              <th class="text-left">アップロード日時</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in teams" :key="index">
-              <td>
-                <v-checkbox :value="item.id" name="checkedId[]" v-model="checkedId"></v-checkbox>
-              </td>
-              <td>{{ item.upload_owner_name }}</td>
-              <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
-              <td>{{ item.file_name }}</td>
-              <td>{{ item.created_at }}</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-      <v-btn primary large block class="info">一括ダウンロード</v-btn>
+      <v-form method="POST" action="/sumDownload" id="sumDownload">
+        <input type="hidden" name="_token" :value="csrf" />
+        <v-simple-table dense>
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">
+                  <v-checkbox label="全チェック" @change="checkAllOrNot" v-model="checkAll"></v-checkbox>
+                </th>
+                <th class="text-left">オーナー名</th>
+                <th class="text-left">コメント</th>
+                <th class="text-left">ファイル名</th>
+                <th class="text-left">アップロード日時</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in teams" :key="index">
+                <td>
+                  <v-checkbox :value="item.id" name="checkedId[]" v-model="checkedId"></v-checkbox>
+                </td>
+                <td>{{ item.upload_owner_name }}</td>
+                <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
+                <td>{{ item.file_name }}</td>
+                <td>{{ item.created_at }}</td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+        <v-btn primary large block :disabled="checkedId.length === 0" class="info" @click="sumDownload">一括ダウンロード</v-btn>
+      </v-form>
       <v-pagination v-model="page" :length="pageLength"></v-pagination>
     </v-container>
     <v-overlay :value="overlay">
@@ -81,7 +84,9 @@ export default class SumDLTeamData extends Vue {
   keyword: string | (string | null)[] = "";
   checkAll: boolean = false;
   checkedId: Array<number> = [];
-
+  csrf: string | null = document
+    .querySelector('meta[name="csrf-token"]')!
+    .getAttribute("content");
   /**
    * name
    */
@@ -140,6 +145,9 @@ export default class SumDLTeamData extends Vue {
     } else {
       this.checkedId = [];
     }
+  }
+  public sumDownload() {
+    (<HTMLFormElement>document.querySelector("#sumDownload")).submit();
   }
 
   /**
