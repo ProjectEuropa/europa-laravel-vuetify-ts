@@ -140,7 +140,7 @@ export default class Information extends Vue {
   start: CalendarTimestamp | null = null;
   end: CalendarTimestamp | null = null;
   selectedEvent: ScheduleDataObject | null = null;
-  selectedElement: any = null;
+  selectedElement: HTMLInputElement | null = null;
   selectedOpen: boolean = false;
   events: Array<ScheduleDataObject> = [
     {
@@ -323,7 +323,7 @@ export default class Information extends Vue {
     nativeEvent,
     event
   }: {
-    nativeEvent: any;
+    nativeEvent: HTMLElementEvent<HTMLInputElement>;
     event: ScheduleDataObject;
   }) {
     const open = () => {
@@ -356,5 +356,9 @@ export default class Information extends Vue {
       ? "th"
       : ["th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th"][d % 10];
   }
+}
+
+interface HTMLElementEvent<T extends HTMLElement> extends Event {
+    target: T;
 }
 </script>
