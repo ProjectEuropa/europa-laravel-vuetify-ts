@@ -5,3 +5,4 @@ export interface ScheduleDataObject {
   end?: string;
   color: string;
 }
+
