@@ -55,9 +55,11 @@
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import { TargetDeleteFileObject } from "../../vue-data-entity/TargetDeleteFileObject";
+import { PaginateObject } from "../../laravel-pagenation-entity/PaginateObject";
 import DeleteModal from "../modules/DeleteModal.vue";
 import { Vue, Component, Watch } from "vue-property-decorator";
 import VueRouter from "vue-router";
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 Component.registerHooks(["beforeRouteUpdate"]);
 @Component({
@@ -166,12 +168,12 @@ export default class SearchTeam extends Vue {
       .get(
         `/api/search/${this.searchType}?page=${this.page}&keyword=${this.keyword}&orderType=${this.orderType}`
       )
-      .then((res: any): void => {
+      .then((res: AxiosResponse<PaginateObject>): void => {
         this.teams = res.data.data;
         this.pageLength = res.data.last_page;
         this.overlay = false;
       })
-      .catch((error: any): void => {
+      .catch((error: AxiosError): void => {
         alert("検索実行時にエラーが発生しました");
         this.overlay = false;
       });
