@@ -1,6 +1,6 @@
 import { FileDataObject } from "../vue-data-entity/FileDataObject"
 
-export interface PaginateObject {
+export interface FilePaginateObject {
   current_page: number;
   data: Array<FileDataObject>;
   first_page_url: string;
