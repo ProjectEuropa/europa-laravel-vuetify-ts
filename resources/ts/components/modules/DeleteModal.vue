@@ -33,7 +33,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="snackbar" :vertical="true">{{ snackbarText }}</v-snackbar>
+    <v-snackbar v-model="snackbar" :vertical="true" :color="color" :timeout="2000">{{ snackbarText }}</v-snackbar>
   </v-row>
 </template>
 
@@ -52,6 +52,7 @@ export default class DeleteModal extends Vue {
   csrf: string | null = document
     .querySelector('meta[name="csrf-token"]')!
     .getAttribute("content");
+  color: string = "success";
 
   @Prop()
   delObj!: TargetDeleteFileObject;
@@ -79,22 +80,20 @@ export default class DeleteModal extends Vue {
         deletePassword: this.deletePassword,
         _token: this.csrf
       })
-      .then((res: any): void => {
+      .then((res: AxiosResponse): void => {
         this.snackbarText = `${this.delObj.file_name}の削除が完了しました。`;
+        this.color = "success";
         this.snackbar = true;
         this.dialog = false;
         setTimeout(() => {
-          this.snackbar = false;
           this.$router.go(0);
         }, 2000);
       })
-      .catch((err: any): void => {
+      .catch((err: AxiosError): void => {
         this.loading = false;
+        this.color = "error";
         this.snackbar = true;
         this.snackbarText = `${this.delObj.file_name}の削除に失敗しました。`;
-        setTimeout(() => {
-          this.snackbar = false;
-        }, 2000);
       });
   }
 }
