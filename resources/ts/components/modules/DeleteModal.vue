@@ -80,7 +80,7 @@ export default class DeleteModal extends Vue {
         deletePassword: this.deletePassword,
         _token: this.csrf
       })
-      .then((res: any): void => {
+      .then((res: AxiosResponse): void => {
         this.snackbarText = `${this.delObj.file_name}の削除が完了しました。`;
         this.color = "success";
         this.snackbar = true;
@@ -89,7 +89,7 @@ export default class DeleteModal extends Vue {
           this.$router.go(0);
         }, 2000);
       })
-      .catch((err: any): void => {
+      .catch((err: AxiosError): void => {
         this.loading = false;
         this.color = "error";
         this.snackbar = true;
