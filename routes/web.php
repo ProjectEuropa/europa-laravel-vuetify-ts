@@ -4,9 +4,12 @@ Route::group(['middleware' => 'auth.very_basic'], function() {
   Route::get('/', function() {
     return view('index');
   });
+  Route::get('/upload', function() {
+    return view('index');
+  });
   Route::get('/{any}', function() {
     return view('index');
-  })->where('any', '[^au].*$');
+  })->where('any', '[^aut].*$');
 
 
   Route::post('/login', 'Auth\LoginController@login');
