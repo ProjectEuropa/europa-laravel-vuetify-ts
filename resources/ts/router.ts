@@ -9,6 +9,7 @@ import Login from './components/pages/Login.vue'
 import Register from './components/pages/Register.vue'
 import Information from './components/pages/Information.vue'
 import EventNotice from './components/pages/EventNotice.vue'
+import Mypage from './components/pages/Mypage.vue'
 
 Vue.use(Router)
 
@@ -59,6 +60,11 @@ const router = new Router({
       path: '/eventnotice',
       name: 'EventNotice',
       component: EventNotice,
+    },
+    {
+      path: '/mypage',
+      name: 'Mypage',
+      component: Mypage,
     },
   ]
 });

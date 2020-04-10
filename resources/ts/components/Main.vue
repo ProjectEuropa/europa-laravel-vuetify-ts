@@ -112,7 +112,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item v-if="!auth">
+        <v-list-item>
           <v-list-item-action>
             <v-icon>mdi-account-plus</v-icon>
           </v-list-item-action>
