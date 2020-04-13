@@ -46,7 +46,7 @@
                 </v-form>
               </ValidationObserver>
               <v-col cols="12" md="12">
-                <v-card-title class="cyan">
+                <v-card-title class="cyan" @click="twitterLogin()">
                   <v-icon large left>mdi-twitter</v-icon>
                   <span class="title font-weight-light">Login with Twitter</span>
                 </v-card-title>
@@ -80,6 +80,13 @@ export default class Login extends Vue {
     if (isValid) {
       (<HTMLFormElement>document.querySelector("#login")).submit();
     }
+  }
+
+  /**
+   * name
+   */
+  public twitterLogin() {
+    location.href = "/auth/twitter";
   }
 }
 </script>
