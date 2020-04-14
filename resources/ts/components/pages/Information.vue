@@ -95,8 +95,14 @@
 </template>
 
 <script lang="ts">
-import { ScheduleDataObject } from "../../vue-data-entity/ScheduleDataObject";
-import { Vue, Component } from "vue-property-decorator";
+import {
+  ScheduleDataObject,
+  LaravelScheduleObject,
+  ScheduleDataObjectFromLaravel
+} from "../../vue-data-entity/ScheduleDataObject";
+import { Vue, Component, Watch } from "vue-property-decorator";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+// import camelCaseKeys from "camelcase-keys";
 import * as Moment from "moment";
 import {
   CalendarTimestamp,
@@ -110,10 +116,12 @@ import {
   CalendarEventOverlapMode
 } from "vuetify/types";
 
-// import { v-calendar } from 'v-calendar'
+// import { v-calendar } from 'v-calendar'FD
 
 @Component
 export default class Information extends Vue {
+  // events: Array<ScheduleDataObject> = [];
+
   private get calendarInstance(): Vue & {
     prev: () => void;
     next: () => void;
@@ -142,133 +150,135 @@ export default class Information extends Vue {
   selectedEvent: ScheduleDataObject | null = null;
   selectedElement: HTMLInputElement | null = null;
   selectedOpen: boolean = false;
-  events: Array<ScheduleDataObject> = [
-    {
-      name: "Vacation",
-      details: "Going to the beach!",
-      start: Moment().format("2018-12-29"),
-      end: Moment().format("2019-01-01"),
-      color: "blue"
-    },
-    {
-      name: "Meeting",
-      details: "Spending time on how we do not have enough time",
-      start: Moment().format("2019-01-07 09:00"),
-      end: Moment().format("2019-01-07 09:30"),
-      color: "indigo"
-    },
-    {
-      name: "Large Event",
-      details:
-        "This starts in the middle of an event and spans over multiple events",
-      start: Moment().format("2018-12-31"),
-      end: Moment().format("2019-01-04"),
-      color: "deep-purple"
-    },
-    {
-      name: "3rd to 7th",
-      details: "Testing",
-      start: Moment().format("2019-01-03"),
-      end: Moment().format("2019-01-07"),
-      color: "cyan"
-    },
-    {
-      name: "Big Meeting",
-      details: "A very important meeting about nothing",
-      start: Moment().format("2019-01-07 08:00"),
-      end: Moment().format("2019-01-07 11:30"),
-      color: "red"
-    },
-    {
-      name: "Another Meeting",
-      details: "Another important meeting about nothing",
-      start: Moment().format("2019-01-07 10:00"),
-      end: Moment().format("2019-01-07 13:30"),
-      color: "brown "
-    },
-    {
-      name: "7th to 8th",
-      start: Moment().format("2019-01-07"),
-      end: Moment().format("2019-01-08"),
-      color: "blue"
-    },
-    {
-      name: "Lunch",
-      details: "Time to feed",
-      start: Moment().format("2019-01-07 12:00"),
-      end: Moment().format("2019-01-07 15:00"),
-      color: "deep-orange"
-    },
-    {
-      name: "30th Birthday",
-      details: "Celebrate responsibly",
-      start: Moment().format("2019-01-03"),
-      color: "teal"
-    },
-    {
-      name: "New Year",
-      details: "Eat chocolate until you pass out",
-      start: Moment().format("2019-01-01"),
-      end: Moment().format("2019-01-02"),
-      color: "green"
-    },
-    {
-      name: "Conference",
-      details: "The best time of my life",
-      start: Moment().format("2019-01-21"),
-      end: Moment().format("2019-01-28"),
-      color: "grey darken-1"
-    },
-    {
-      name: "Hackathon",
-      details: "Code like there is no tommorrow",
-      start: Moment().format("2019-01-30 23:00"),
-      end: Moment().format("2019-02-01 08:00"),
-      color: "black"
-    },
-    {
-      name: "event 1",
-      start: Moment().format("2019-01-14 18:00"),
-      end: Moment().format("2019-01-14 19:00"),
-      color: "#4285F4"
-    },
-    {
-      name: "event 2",
-      start: Moment().format("2019-01-14 18:00"),
-      end: Moment().format("2019-01-14 19:00"),
-      color: "#4285F4"
-    },
-    {
-      name: "event 5",
-      start: Moment().format("2019-01-14 18:00"),
-      end: Moment().format("2019-01-14 19:00"),
-      color: "#4285F4"
-    },
-    {
-      name: "event 3",
-      start: Moment().format("2019-01-14 18:30"),
-      end: Moment().format("2019-01-14 20:30"),
-      color: "#4285F4"
-    },
-    {
-      name: "event 4",
-      start: Moment().format("2019-01-14 19:00"),
-      end: Moment().format("2019-01-14 20:00"),
-      color: "#4285F4"
-    },
-    {
-      name: "event 6",
-      start: Moment().format("2019-01-14 21:00"),
-      end: Moment().format("2019-01-14 23:00"),
-      color: "#4285F4"
-    },
-    {
-      name: "event 7",
-      start: Moment().format("2019-01-14 22:00"),
-      end: Moment().format("2019-01-14 23:00"),
-      color: "#4285F4"
-    }
-  ];
+  events: Array<LaravelScheduleObject> = [];
+  public getEvents() {
+    Vue.prototype.$http
+      .get(`/api/event`)
+      .then((res: AxiosResponse<ScheduleDataObjectFromLaravel>): void => {
+        this.events = res.data.data;
+        console.log("results");
+        console.log(res);
+        console.log(this.events);
+      })
+      .catch((error: AxiosError): void => {
+        alert("検索実行時にエラーが発生しました");
+      });
+  }
+  public created() {
+    this.getEvents();
+    console.log(this.events[0].name);
+    // console.log("result2");
+    // console.log(this.events);
+  }
+
+  // events: Array<LaravelScheduleObject> = [
+  //   {
+  //     name: "Vacation",
+  //     details: "Going to the beach!",
+  //     start: Moment().format("2018-12-29"),
+  //     end: Moment().format("2019-01-01")
+  //   },
+  //   {
+  //     name: "Meeting",
+  //     details: "Spending time on how we do not have enough time",
+  //     start: Moment().format("2019-01-07 09:00"),
+  //     end: Moment().format("2019-01-07 09:30")
+  //   },
+  //   {
+  //     name: "Large Event",
+  //     details:
+  //       "This starts in the middle of an event and spans over multiple events",
+  //     start: Moment().format("2018-12-31"),
+  //     end: Moment().format("2019-01-04")
+  //   },
+  //   {
+  //     name: "3rd to 7th",
+  //     details: "Testing",
+  //     start: Moment().format("2019-01-03"),
+  //     end: Moment().format("2019-01-07")
+  //   },
+  //   {
+  //     name: "Big Meeting",
+  //     details: "A very important meeting about nothing",
+  //     start: Moment().format("2019-01-07 08:00"),
+  //     end: Moment().format("2019-01-07 11:30")
+  //   },
+  //   {
+  //     name: "Another Meeting",
+  //     details: "Another important meeting about nothing",
+  //     start: Moment().format("2019-01-07 10:00"),
+  //     end: Moment().format("2019-01-07 13:30")
+  //   },
+  //   {
+  //     name: "7th to 8th",
+  //     start: Moment().format("2019-01-07"),
+  //     end: Moment().format("2019-01-08")
+  //   },
+  //   {
+  //     name: "Lunch",
+  //     details: "Time to feed",
+  //     start: Moment().format("2019-01-07 12:00"),
+  //     end: Moment().format("2019-01-07 15:00")
+  //   },
+  //   {
+  //     name: "30th Birthday",
+  //     details: "Celebrate responsibly",
+  //     start: Moment().format("2019-01-03")
+  //   },
+  //   {
+  //     name: "New Year",
+  //     details: "Eat chocolate until you pass out",
+  //     start: Moment().format("2019-01-01"),
+  //     end: Moment().format("2019-01-02")
+  //   },
+  //   {
+  //     name: "Conference",
+  //     details: "The best time of my life",
+  //     start: Moment().format("2019-01-21"),
+  //     end: Moment().format("2019-01-28")
+  //   },
+  //   {
+  //     name: "Hackathon",
+  //     details: "Code like there is no tommorrow",
+  //     start: Moment().format("2019-01-30 23:00"),
+  //     end: Moment().format("2019-02-01 08:00")
+  //   },
+  //   {
+  //     name: "event 1",
+  //     start: Moment().format("2019-01-14 18:00"),
+  //     end: Moment().format("2019-01-14 19:00")
+  //   },
+  //   {
+  //     name: "event 2",
+  //     start: Moment().format("2019-01-14 18:00"),
+  //     end: Moment().format("2019-01-14 19:00")
+  //   },
+  //   {
+  //     name: "event 5",
+  //     start: Moment().format("2019-01-14 18:00"),
+  //     end: Moment().format("2019-01-14 19:00")
+  //   },
+  //   {
+  //     name: "event 3",
+  //     start: Moment().format("2019-01-14 18:30"),
+  //     end: Moment().format("2019-01-14 20:30")
+  //   },
+  //   {
+  //     name: "event 4",
+  //     start: Moment().format("2019-01-14 19:00"),
+  //     end: Moment().format("2019-01-14 20:00")
+  //   },
+  //   {
+  //     name: "event 6",
+  //     start: Moment().format("2019-01-14 21:00"),
+  //     end: Moment().format("2019-01-14 23:00")
+  //   },
+  //   {
+  //     name: "event 7",
+  //     start: Moment().format("2019-01-14 22:00"),
+  //     end: Moment().format("2019-01-14 23:00")
+  //   }
+  // ];
 
   public title(): string {
     const { start, end } = this;
@@ -359,6 +369,6 @@ export default class Information extends Vue {
 }
 
 interface HTMLElementEvent<T extends HTMLElement> extends Event {
-    target: T;
+  target: T;
 }
 </script>
