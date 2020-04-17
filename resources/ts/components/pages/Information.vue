@@ -156,9 +156,14 @@ export default class Information extends Vue {
       .get(`/api/event`)
       .then((res: AxiosResponse<ScheduleDataObjectFromLaravel>): void => {
         this.events = res.data.data;
-        console.log("results");
-        console.log(res);
-        console.log(this.events);
+        this.events.map(object => {
+          return (
+            (object.name = object.event_name),
+            (object.details = object.event_details),
+            (object.start = object.event_closing_day),
+            (object.end = object.event_closing_day)
+          );
+        });
       })
       .catch((error: AxiosError): void => {
         alert("検索実行時にエラーが発生しました");
@@ -166,120 +171,7 @@ export default class Information extends Vue {
   }
   public created() {
     this.getEvents();
-    console.log(this.events[0].name);
-    // console.log("result2");
-    // console.log(this.events);
   }
-
-  // events: Array<LaravelScheduleObject> = [
-  //   {
-  //     name: "Vacation",
-  //     details: "Going to the beach!",
-  //     start: Moment().format("2018-12-29"),
-  //     end: Moment().format("2019-01-01")
-  //   },
-  //   {
-  //     name: "Meeting",
-  //     details: "Spending time on how we do not have enough time",
-  //     start: Moment().format("2019-01-07 09:00"),
-  //     end: Moment().format("2019-01-07 09:30")
-  //   },
-  //   {
-  //     name: "Large Event",
-  //     details:
-  //       "This starts in the middle of an event and spans over multiple events",
-  //     start: Moment().format("2018-12-31"),
-  //     end: Moment().format("2019-01-04")
-  //   },
-  //   {
-  //     name: "3rd to 7th",
-  //     details: "Testing",
-  //     start: Moment().format("2019-01-03"),
-  //     end: Moment().format("2019-01-07")
-  //   },
-  //   {
-  //     name: "Big Meeting",
-  //     details: "A very important meeting about nothing",
-  //     start: Moment().format("2019-01-07 08:00"),
-  //     end: Moment().format("2019-01-07 11:30")
-  //   },
-  //   {
-  //     name: "Another Meeting",
-  //     details: "Another important meeting about nothing",
-  //     start: Moment().format("2019-01-07 10:00"),
-  //     end: Moment().format("2019-01-07 13:30")
-  //   },
-  //   {
-  //     name: "7th to 8th",
-  //     start: Moment().format("2019-01-07"),
-  //     end: Moment().format("2019-01-08")
-  //   },
-  //   {
-  //     name: "Lunch",
-  //     details: "Time to feed",
-  //     start: Moment().format("2019-01-07 12:00"),
-  //     end: Moment().format("2019-01-07 15:00")
-  //   },
-  //   {
-  //     name: "30th Birthday",
-  //     details: "Celebrate responsibly",
-  //     start: Moment().format("2019-01-03")
-  //   },
-  //   {
-  //     name: "New Year",
-  //     details: "Eat chocolate until you pass out",
-  //     start: Moment().format("2019-01-01"),
-  //     end: Moment().format("2019-01-02")
-  //   },
-  //   {
-  //     name: "Conference",
-  //     details: "The best time of my life",
-  //     start: Moment().format("2019-01-21"),
-  //     end: Moment().format("2019-01-28")
-  //   },
-  //   {
-  //     name: "Hackathon",
-  //     details: "Code like there is no tommorrow",
-  //     start: Moment().format("2019-01-30 23:00"),
-  //     end: Moment().format("2019-02-01 08:00")
-  //   },
-  //   {
-  //     name: "event 1",
-  //     start: Moment().format("2019-01-14 18:00"),
-  //     end: Moment().format("2019-01-14 19:00")
-  //   },
-  //   {
-  //     name: "event 2",
-  //     start: Moment().format("2019-01-14 18:00"),
-  //     end: Moment().format("2019-01-14 19:00")
-  //   },
-  //   {
-  //     name: "event 5",
-  //     start: Moment().format("2019-01-14 18:00"),
-  //     end: Moment().format("2019-01-14 19:00")
-  //   },
-  //   {
-  //     name: "event 3",
-  //     start: Moment().format("2019-01-14 18:30"),
-  //     end: Moment().format("2019-01-14 20:30")
-  //   },
-  //   {
-  //     name: "event 4",
-  //     start: Moment().format("2019-01-14 19:00"),
-  //     end: Moment().format("2019-01-14 20:00")
-  //   },
-  //   {
-  //     name: "event 6",
-  //     start: Moment().format("2019-01-14 21:00"),
-  //     end: Moment().format("2019-01-14 23:00")
-  //   },
-  //   {
-  //     name: "event 7",
-  //     start: Moment().format("2019-01-14 22:00"),
-  //     end: Moment().format("2019-01-14 23:00")
-  //   }
-  // ];
-
   public title(): string {
     const { start, end } = this;
     if (!start || !end) {

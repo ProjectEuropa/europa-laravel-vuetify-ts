@@ -1,10 +1,12 @@
 <template>
   <v-content>
     <v-container fluid>
-      <h1 class="display-1 mb-4 text--darken-1">Sum DL {{capitalizeFirstLetter(searchType)}} Data</h1>
-      <h4
-        class="subheading"
-      >{{ searchTypeJa }}データの一括ダウンロードが可能です。ダウンロードしたいデータにチェックを入れて一括ダウンロードボタンをクリックしてください。</h4>
+      <h1 class="display-1 mb-4 text--darken-1">Sum DL {{ capitalizeFirstLetter(searchType) }} Data</h1>
+      <h4 class="subheading">
+        {{
+        searchTypeJa
+        }}データの一括ダウンロードが可能です。ダウンロードしたいデータにチェックを入れて一括ダウンロードボタンをクリックしてください。
+      </h4>
       <v-form class="d-flex justify-md-space-center justify-sm-space-between">
         <v-text-field
           v-model="keyword"
@@ -44,7 +46,14 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-btn primary large block :disabled="checkedId.length === 0" class="info" @click="sumDownload">一括ダウンロード</v-btn>
+        <v-btn
+          primary
+          large
+          block
+          :disabled="checkedId.length === 0"
+          class="info"
+          @click="sumDownload"
+        >一括ダウンロード</v-btn>
       </v-form>
       <v-pagination v-model="page" :length="pageLength"></v-pagination>
     </v-container>
@@ -170,6 +179,8 @@ export default class SumDLTeamData extends Vue {
         this.overlay = false;
         this.checkAll = false;
         this.checkedId = [];
+        console.log("result");
+        console.log(this.teams);
       })
       .catch((error: AxiosError): void => {
         alert("検索実行時にエラーが発生しました");

@@ -34,7 +34,7 @@ export class LaravelScheduleObject implements ScheduleDataObject {
     return this.event_name;
   }
   set name(value: string) {
-    this._name = this.event_name;
+    this.name = this.event_name;
   }
   get details(): string {
     return this.event_details;
@@ -57,18 +57,5 @@ export class LaravelScheduleObject implements ScheduleDataObject {
 }
 
 export interface ScheduleDataObjectFromLaravel {
-  // current_page: number;
-  // data: KoseiObject;
   data: Array<LaravelScheduleObject>;
-
-  // first_page_url: string;
-  // from: number;
-  // last_page: number;
-  // last_page_url: string;
-  // next_page_url: string;
-  // path: string;
-  // per_page: number;
-  // prev_page_url: string | null;
-  // to: number;
-  // total: number;
 }
