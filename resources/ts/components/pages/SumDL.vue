@@ -179,8 +179,6 @@ export default class SumDLTeamData extends Vue {
         this.overlay = false;
         this.checkAll = false;
         this.checkedId = [];
-        console.log("result");
-        console.log(this.teams);
       })
       .catch((error: AxiosError): void => {
         alert("検索実行時にエラーが発生しました");
