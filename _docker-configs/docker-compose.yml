@@ -37,8 +37,8 @@ services:
       - POSTGRES_DB=testdb
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
-    # volumes:
-    #   - ./data:/var/lib/postgresql/data
+      # volumes:
+      - ./data:/var/lib/postgresql/data
     container_name: "pg-pe-12"
   pggui:
     container_name: pgweb
