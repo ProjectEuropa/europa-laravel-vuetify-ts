@@ -96,13 +96,12 @@
 
 <script lang="ts">
 import {
-  ScheduleDataObject,
-  LaravelScheduleObject,
-  ScheduleDataObjectFromLaravel
+  ScheduleObject,
+  ScheduleObjectSynchronizedLaravelEvents,
+  LaravelApiReturnEventsJson
 } from "../../vue-data-entity/ScheduleDataObject";
 import { Vue, Component, Watch } from "vue-property-decorator";
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-// import camelCaseKeys from "camelcase-keys";
 import * as Moment from "moment";
 import {
   CalendarTimestamp,
@@ -115,13 +114,8 @@ import {
   CalendarDayBodySlotScope,
   CalendarEventOverlapMode
 } from "vuetify/types";
-
-// import { v-calendar } from 'v-calendar'FD
-
 @Component
 export default class Information extends Vue {
-  // events: Array<ScheduleDataObject> = [];
-
   private get calendarInstance(): Vue & {
     prev: () => void;
     next: () => void;
@@ -136,8 +130,8 @@ export default class Information extends Vue {
     };
   }
 
-  today: string = Moment().format("2019-01-01");
-  focus: string = Moment().format("2019-01-01");
+  today: string = Moment().format("YYYY-MM-DD");
+  focus: string =  Moment().format("YYYY-MM-DD");
   type: string = "month";
   typeToLabel: object = {
     month: "Month",
@@ -147,14 +141,14 @@ export default class Information extends Vue {
   };
   start: CalendarTimestamp | null = null;
   end: CalendarTimestamp | null = null;
-  selectedEvent: ScheduleDataObject | null = null;
+  selectedEvent: ScheduleObject | null = null;
   selectedElement: HTMLInputElement | null = null;
   selectedOpen: boolean = false;
-  events: Array<LaravelScheduleObject> = [];
+  events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
   public getEvents() {
     Vue.prototype.$http
       .get(`/api/event`)
-      .then((res: AxiosResponse<ScheduleDataObjectFromLaravel>): void => {
+      .then((res: AxiosResponse<LaravelApiReturnEventsJson>): void => {
         this.events = res.data.data;
         this.events.map(object => {
           return (
@@ -226,7 +220,7 @@ export default class Information extends Vue {
     event
   }: {
     nativeEvent: HTMLElementEvent<HTMLInputElement>;
-    event: ScheduleDataObject;
+    event: ScheduleObject;
   }) {
     const open = () => {
       this.selectedEvent = event;
