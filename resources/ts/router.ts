@@ -74,7 +74,7 @@ const router = new Router({
       component: PasswordEmail,
     },
     {
-      path: '/password/reset',
+      path: '/password/reset/:token',
       name: 'PasswordReset',
       component: PasswordReset,
     },

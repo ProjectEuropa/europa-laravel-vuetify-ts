@@ -11,6 +11,7 @@
               <ValidationObserver ref="observer">
                 <v-form method="POST" action="/password/reset" id="password-reset">
                   <input type="hidden" name="_token" :value="csrf" />
+                  <input type="hidden" name="token" :value="token" />
 
                   <v-col cols="12" md="12">
                     <ValidationProvider
@@ -81,5 +82,30 @@ import { ValidationObserver } from "vee-validate";
 
 @Component
 export default class PasswordReset extends Vue {
+  email: string = "";
+  password: string = "";
+  password_confirmation = "";
+  csrf: string | null = document
+    .querySelector('meta[name="csrf-token"]')!
+    .getAttribute("content");
+  token: string = "";
+
+  $refs!: {
+    observer: InstanceType<typeof ValidationObserver>;
+  };
+
+  /**
+   * name
+   */
+  public created() {
+    this.token = this.$route.params.token;
+  }
+
+  public async reset() {
+    const isValid = await this.$refs.observer.validate();
+    if (isValid) {
+      (<HTMLFormElement>document.querySelector("#password-reset")).submit();
+    }
+  }
 }
 </script>

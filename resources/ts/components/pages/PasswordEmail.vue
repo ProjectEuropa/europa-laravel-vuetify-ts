@@ -30,7 +30,13 @@
                     </ValidationProvider>
                   </v-col>
                   <v-card-actions>
-                    <v-btn primary large block class="primary" @click="send()">Password Reset Email Send</v-btn>
+                    <v-btn
+                      primary
+                      large
+                      block
+                      class="primary"
+                      @click="send()"
+                    >Password Reset Email Send</v-btn>
                   </v-card-actions>
                 </v-form>
               </ValidationObserver>
@@ -48,5 +54,20 @@ import { ValidationObserver } from "vee-validate";
 
 @Component
 export default class PasswordEmail extends Vue {
+  email: string = "";
+  csrf: string | null = document
+    .querySelector('meta[name="csrf-token"]')!
+    .getAttribute("content");
+
+  $refs!: {
+    observer: InstanceType<typeof ValidationObserver>;
+  };
+
+  public async send() {
+    const isValid = await this.$refs.observer.validate();
+    if (isValid) {
+      (<HTMLFormElement>document.querySelector("#password-email")).submit();
+    }
+  }
 }
 </script>
