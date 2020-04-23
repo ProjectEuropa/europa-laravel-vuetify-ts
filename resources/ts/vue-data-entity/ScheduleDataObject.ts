@@ -12,6 +12,7 @@ export interface ScheduleObjectSynchronizedLaravelEvents extends ScheduleObject 
   event_closing_day: string;
   event_name: string;
   event_details: string;
+  event_displaying_day: string;
 }
 
 export interface LaravelApiReturnEventsJson {
