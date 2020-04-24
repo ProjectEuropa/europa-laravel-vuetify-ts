@@ -16,6 +16,7 @@ Route::group(['middleware' => 'auth.very_basic'], function () {
     Route::get('/auth/logout', 'Auth\LoginController@logout');
     Route::get('/auto/download/{id}', 'FileConventionalUtilController@download');
     Route::post('/sumDownload', 'FileConventionalUtilController@sumDownload');
+    Route::post('/eventNotice', 'EventNoticeController@store');
 
     Route::get('/auth/twitter', 'Auth\SocialAuthController@getTwitterAuth');
     Route::get('/auth/twitter/callback', 'Auth\SocialAuthController@getTwitterAuthCallback');
