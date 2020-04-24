@@ -20,21 +20,15 @@
                       <v-icon>mdi-upload</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                      <v-list-item-title class="headline white--text"
-                        >イベント告知</v-list-item-title
-                      >
-                      <v-list-item-subtitle class="white--text"
-                        >イベントの告知が可能です。ここで登録した内容はInformationに表示されます。</v-list-item-subtitle
-                      >
+                      <v-list-item-title class="headline white--text">イベント告知</v-list-item-title>
+                      <v-list-item-subtitle
+                        class="white--text"
+                      >イベントの告知が可能です。ここで登録した内容はInformationに表示されます。</v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
                 </v-card-title>
                 <v-col cols="12" md="12">
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    name="イベント名"
-                    rules="required|max:100"
-                  >
+                  <ValidationProvider v-slot="{ errors }" name="イベント名" rules="required|max:100">
                     <v-text-field
                       prepend-icon="mdi-calendar-edit"
                       v-model="eventName"
@@ -45,11 +39,7 @@
                       required
                     ></v-text-field>
                   </ValidationProvider>
-                  <ValidationProvider
-                    v-slot="{ errors }"
-                    name="イベント詳細情報"
-                    rules="required|max:100"
-                  >
+                  <ValidationProvider v-slot="{ errors }" name="イベント詳細情報" rules="required|max:100">
                     <v-textarea
                       prepend-icon="mdi-comment-multiple-outline"
                       v-model="eventDetails"
@@ -147,9 +137,7 @@
                   ></v-select>
                 </v-col>
                 <v-card-actions class="justify-center">
-                  <v-btn large block class="primary" @click="register()"
-                    >イベント情報登録</v-btn
-                  >
+                  <v-btn large block class="primary" @click="register()">イベント情報登録</v-btn>
                 </v-card-actions>
               </v-card>
             </v-row>
@@ -158,12 +146,12 @@
       </v-col>
     </v-container>
     <v-snackbar
-      v-model="flash"
+      v-model="snackbar"
       :vertical="true"
       color="success"
       :timeout="2000"
-      >{{ flash }}</v-snackbar
-    >
+      :default="false"
+    >{{ flash }}</v-snackbar>
   </v-content>
 </template>
 
@@ -206,7 +194,12 @@ export default class EventNotice extends Vue {
   displayDay: string = "";
   menu: boolean = false;
   menu2: boolean = false;
-
+  snackbar: boolean = false;
+  public created() {
+    if (this.flash) {
+      this.snackbar = true;
+    }
+  }
   @Prop({ default: null })
   flash!: string | null;
 }
