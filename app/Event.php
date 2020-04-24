@@ -14,5 +14,6 @@ class Event extends Model
      */
     protected $dates = [
       'event_closing_day',
+      'event_displaying_day',
   ];
 }

@@ -161,7 +161,7 @@ export default class App extends Vue {
 
   @Prop()
   auth!: AuthUserObject | null;
-  @Prop()
+  @Prop({ default: null })
   flash!: string | null;
 }
 </script>

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Event;
 
-
 class EventNoticeController extends Controller
 {
       public function __construct()
