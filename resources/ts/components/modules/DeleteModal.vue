@@ -33,7 +33,12 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-snackbar v-model="snackbar" :vertical="true" :color="color" :timeout="2000">{{ snackbarText }}</v-snackbar>
+    <v-snackbar
+      v-model="snackbar"
+      :vertical="true"
+      :color="color"
+      :timeout="2000"
+    >{{ snackbarText }}</v-snackbar>
   </v-row>
 </template>
 
