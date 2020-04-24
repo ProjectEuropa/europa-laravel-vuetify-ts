@@ -9,12 +9,12 @@ use App\Event;
 
 class EventNoticeController extends Controller
 {
-      public function __construct()
-      {
-        $this->middleware('auth');
-      }
+    public function __construct()
+    {
+      $this->middleware('auth');
+    }
 
-      public function store(Request $request){
+    public function store(Request $request){
       $user = Auth::user();
       $eventReferenceUrl = $request->eventReferenceUrl ?? null;
       $event = new Event;
@@ -26,6 +26,7 @@ class EventNoticeController extends Controller
       $event->event_closing_day    = $request->eventClosingDay;
       $event->event_displaying_day = $request->eventDisplayingDay;
       $event->save();
+
       return redirect('/eventnotice')->with('message', 'イベント告知の登録に成功しました');
     }
 }
