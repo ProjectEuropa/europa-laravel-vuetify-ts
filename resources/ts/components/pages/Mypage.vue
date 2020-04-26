@@ -55,7 +55,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in teams" :key="index">
+                      <tr v-for="(item, index) in matches" :key="index">
                         <td>{{ item.upload_owner_name }}</td>
                         <td
                           style="white-space:pre-wrap; word-wrap:break-word;"
@@ -119,11 +119,13 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>某イベント</td>
-                        <td style="white-space:pre-wrap; word-wrap:break-word;">イベントのテストです</td>
-                        <td>{{ new Date() }}</td>
-                        <td>{{ new Date() }}</td>
+                      <tr v-for="(item, index) in events" :key="index">
+                        <td>{{ item.event_name}}</td>
+                        <td
+                          style="white-space:pre-wrap; word-wrap:break-word;"
+                        >{{ item.event_details }}</td>
+                        <td>{{ item.event_closing_day }}</td>
+                        <td>{{ item.event_displaying_day }}</td>
                         <td>
                           <v-icon>mdi-delete-forever</v-icon>
                         </td>
@@ -143,35 +145,48 @@
 
 <script lang="ts">
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
+import { MypageFileObject } from "../../laravel-data-entity/FilePaginateObject";
+import {
+  ScheduleObject,
+  ScheduleObjectSynchronizedLaravelEvents,
+  LaravelApiReturnEventsJson
+} from "../../vue-data-entity/ScheduleDataObject";
 import { Vue, Component } from "vue-property-decorator";
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+
 @Component
 export default class Mypage extends Vue {
   name: string = "";
-  teams: Array<FileDataObject> = [
-    {
-      id: 1,
-      upload_user_id: "1",
-      upload_owner_name: "M2",
-      file_comment: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      upload_type: "1",
-      created_at: new Date("2019-10-19 11:44:30")
-    },
-    {
-      id: 1,
-      upload_user_id: "1",
-      upload_owner_name: "M2",
-      file_comment: `■秋季演習大会2019
-オーナー名：M2
-チーム名：TケルダールN「HB8」
-コメント：ハイブリッド月影第8弾`,
-      file_name: "TKNHB8.CHE",
-      upload_type: "1",
-      created_at: new Date("2019-10-19 11:44:30")
-    }
-  ];
+  teams: Array<FileDataObject> = [];
+  matches: Array<FileDataObject> = [];
+  events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
+  /**
+   * name
+   */
+  public created() {
+    Vue.prototype.$http
+      .get(`/api/mypage/team`)
+      .then((res: AxiosResponse<MypageFileObject>): void => {
+        this.teams = res.data.data;
+      });
+
+    Vue.prototype.$http
+      .get(`/api/mypage/match`)
+      .then((res: AxiosResponse<MypageFileObject>): void => {
+        this.matches = res.data.data;
+      });
+
+    Vue.prototype.$http
+      .get(`/api/mypage/events`)
+      .then((res: AxiosResponse<LaravelApiReturnEventsJson>): void => {
+        this.events = res.data.data;
+      });
+
+    Vue.prototype.$http
+      .get(`/api/user`)
+      .then((res: AxiosResponse<any>): void => {
+        this.name = res.data.name;
+      });
+  }
 }
 </script>

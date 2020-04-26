@@ -6,6 +6,9 @@ export default {
     const http = axios.create({
       responseType: "json"
     });
+    http.defaults.headers.common['Authorization'] = "Bearer " + document
+      .querySelector('meta[name="api-token"]')!
+      .getAttribute("content");
     Vue.prototype.$http = http;
   },
 };
