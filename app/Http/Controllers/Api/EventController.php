@@ -16,7 +16,9 @@ class EventController extends Controller
 
     public function getMyEventData(Request $request)
     {
-        $data = Event::select('id', 'event_name', 'event_details', 'event_closing_day', 'event_reference_url')->where('register_user_id', $request->user()->id)->get();
+        $data = Event::select('id', 'event_name', 'event_details', 'event_closing_day', 'event_reference_url')
+            ->where('register_user_id', $request->user()->id)
+            ->get();
         return ['data' => $data];
     }
 }
