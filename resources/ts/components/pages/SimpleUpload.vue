@@ -2,7 +2,8 @@
   <v-content>
     <v-container fluid class="d-flex">
       <v-col cols="12" md="12">
-        <v-form ref="form" lazy-validation justify="center">
+      <v-form ref="form" method="POST" action="/team/simpleupload" id="team-simple-upload" lazy-validation justify="center" enctype="multipart/form-data">
+		    <input type="hidden" name="_token" :value="csrf" />
           <v-row align="center" justify="center">
             <v-card class="mx-auto">
               <v-card-title class="blue">
@@ -70,7 +71,7 @@
                 <v-file-input append-icon show-size counter multiple label="チームデータ"></v-file-input>
               </v-col>
               <v-card-actions class="justify-center">
-                <v-btn large block class="primary">チームデータアップロード</v-btn>
+                <v-btn large block class="primary" @click="teamSimpleUpload">チームデータアップロード</v-btn>
               </v-card-actions>
             </v-card>
           </v-row>
@@ -171,5 +172,12 @@ export default class SimpleUpload extends Vue {
   comment: string = "";
   searchTag: Array<string> = [];
   deletePassword: string = "";
+  csrf: string | null = document
+    .querySelector('meta[name="csrf-token"]')!
+    .getAttribute("content");
+
+  public teamSimpleUpload() {
+    (<HTMLFormElement>document.querySelector("#team-simple-upload")).submit();
+  }
 }
 </script>
