@@ -6,11 +6,12 @@
           <v-container style class="text-xs-center">
             <v-card flat>
               <v-card-title primary-title>
-                <h4>Login</h4>
+                <h4>Password Reset Email</h4>
               </v-card-title>
               <ValidationObserver ref="observer">
-                <v-form method="POST" action="/login" id="login">
+                <v-form method="POST" action="/password/email" id="password-email">
                   <input type="hidden" name="_token" :value="csrf" />
+
                   <v-col cols="12" md="12">
                     <ValidationProvider
                       v-slot="{ errors }"
@@ -27,33 +28,18 @@
                         required
                       ></v-text-field>
                     </ValidationProvider>
-                    <ValidationProvider v-slot="{ errors }" name="パスワード" rules="required|max:100">
-                      <v-text-field
-                        prepend-icon="mdi-lock"
-                        v-model="password"
-                        name="password"
-                        :counter="100"
-                        :error-messages="errors"
-                        label="パスワード"
-                        type="password"
-                        required
-                      ></v-text-field>
-                    </ValidationProvider>
                   </v-col>
                   <v-card-actions>
-                    <v-btn primary large block class="primary" @click="login()">Login</v-btn>
+                    <v-btn
+                      primary
+                      large
+                      block
+                      class="primary"
+                      @click="send()"
+                    >Password Reset Email Send</v-btn>
                   </v-card-actions>
                 </v-form>
               </ValidationObserver>
-              <v-col cols="12" md="12">
-                <v-card-title class="cyan" @click="twitterLogin()">
-                  <v-icon large left>mdi-twitter</v-icon>
-                  <span class="title font-weight-light">Login with Twitter</span>
-                </v-card-title>
-              </v-col>
-              <v-col cols="12" md="12">
-                <router-link to="/password/email">forget password</router-link>
-              </v-col>
             </v-card>
           </v-container>
         </v-flex>
@@ -63,13 +49,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Prop } from "vue-property-decorator";
 import { ValidationObserver } from "vee-validate";
 
 @Component
-export default class Login extends Vue {
+export default class PasswordEmail extends Vue {
   email: string = "";
-  password: string = "";
   csrf: string | null = document
     .querySelector('meta[name="csrf-token"]')!
     .getAttribute("content");
@@ -78,18 +63,11 @@ export default class Login extends Vue {
     observer: InstanceType<typeof ValidationObserver>;
   };
 
-  public async login() {
+  public async send() {
     const isValid = await this.$refs.observer.validate();
     if (isValid) {
-      (<HTMLFormElement>document.querySelector("#login")).submit();
+      (<HTMLFormElement>document.querySelector("#password-email")).submit();
     }
-  }
-
-  /**
-   * name
-   */
-  public twitterLogin() {
-    location.href = "/auth/twitter";
   }
 }
 </script>

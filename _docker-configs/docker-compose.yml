@@ -16,6 +16,7 @@ services:
       context: ./php-fpm
     depends_on:
       - pg
+      - mailhog
     ports:
       - 9000:9000
       - 8001:8001
@@ -45,5 +46,8 @@ services:
     image: sosedoff/pgweb
     ports:
       - 8081:8081
-    depends_on:
-      - pg
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025

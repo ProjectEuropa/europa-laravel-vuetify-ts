@@ -10,6 +10,8 @@ import Register from './components/pages/Register.vue'
 import Information from './components/pages/Information.vue'
 import EventNotice from './components/pages/EventNotice.vue'
 import Mypage from './components/pages/Mypage.vue'
+import PasswordEmail from './components/pages/PasswordEmail.vue'
+import PasswordReset from './components/pages/PasswordReset.vue'
 
 Vue.use(Router)
 
@@ -65,6 +67,16 @@ const router = new Router({
       path: '/mypage',
       name: 'Mypage',
       component: Mypage,
+    },
+    {
+      path: '/password/email',
+      name: 'PasswordEmail',
+      component: PasswordEmail,
+    },
+    {
+      path: '/password/reset/:token',
+      name: 'PasswordReset',
+      component: PasswordReset,
     },
   ]
 });
