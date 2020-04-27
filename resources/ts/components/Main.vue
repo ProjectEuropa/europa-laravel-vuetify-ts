@@ -144,7 +144,7 @@
       <v-toolbar-title v-if="auth">Login As: {{auth.name}}</v-toolbar-title>
     </v-app-bar>
 
-    <router-view></router-view>
+    <router-view :flash="flash"></router-view>
 
     <v-footer app clipped-center color="blue darken-3 white--text">
       <span>&copy; Team Project Europa 2016-{{new Date().getFullYear()}}</span>
@@ -161,5 +161,7 @@ export default class App extends Vue {
 
   @Prop()
   auth!: AuthUserObject | null;
+  @Prop({ default: null })
+  flash!: string | null;
 }
 </script>

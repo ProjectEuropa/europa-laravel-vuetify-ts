@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(FileDummySeeder::class);
         $this->call(EventDummySeeder::class);
+        $this->call(UserSeeder::class);
     }
 }
