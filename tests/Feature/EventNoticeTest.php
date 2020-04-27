@@ -2,12 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\User;
-use Carbon\Carbon;
+use Tests\TestCase;
 
 class EventNoticeTest extends TestCase
 {
@@ -20,6 +19,7 @@ class EventNoticeTest extends TestCase
     public function testExample()
     {
         $user = factory(User::class, 'default')->create();
+        $now  = now()->format('Y-m-d');
         $response = $this
         ->actingAs($user)
         ->post('/eventNotice',
@@ -28,10 +28,17 @@ class EventNoticeTest extends TestCase
               'eventDetails'       => 'phpunit details',
               'eventReferenceUrl'  => 'phpunit url',
               'eventType'          =>  1,
-              'eventClosingDay'    =>  Carbon::now()->format('Y-m-d'),
-              'eventDisplayingDay' =>  Carbon::now()->format('Y-m-d'),
+              'eventClosingDay'    =>  $now,
+              'eventDisplayingDay' =>  $now,
           ]);
+        $this->assertDatabaseHas('events', [
+            'event_name'           => 'phpunit name',
+            'event_details'        => 'phpunit details',
+            'event_reference_url'  => 'phpunit url',
+            'event_type'           =>  1,
+            'event_closing_day'    =>  $now,
+            'event_displaying_day' =>  $now,
+        ]);
         $response->assertLocation('/eventnotice');
-
     }
 }
