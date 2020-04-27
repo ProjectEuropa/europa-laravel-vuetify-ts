@@ -14,3 +14,7 @@ export interface FilePaginateObject {
   to: number;
   total: number;
 }
+
+export interface MypageFileObject {
+  data: Array<FileDataObject>;
+}
