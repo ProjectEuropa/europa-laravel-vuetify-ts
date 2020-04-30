@@ -33,4 +33,6 @@ Route::group(['middleware' => ['api', 'auth:api']], function () {
     Route::get('mypage/team', 'Api\FileUtilController@myTeam');
     Route::get('mypage/match', 'Api\FileUtilController@myMatch');
     Route::get('mypage/events', 'Api\EventController@getMyEventData');
+    Route::post('delete/usersRegisteredCloumn ', 'Api\EventController@deleteUserEvents');
+    Route::post('userUpdate ', 'Api\UserController@userUpdate');
 });

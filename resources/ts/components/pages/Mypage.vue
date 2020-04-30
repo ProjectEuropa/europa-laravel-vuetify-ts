@@ -22,22 +22,24 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-card-text>
-                <ValidationProvider v-slot="{ errors }" name="オーナー名" rules="required|max:100">
-                  <v-text-field
-                    prepend-icon="mdi-account-circle"
-                    v-model="name"
-                    name="name"
-                    :counter="100"
-                    :error-messages="errors"
-                    label="名前"
-                    required
-                  ></v-text-field>
-                  <v-card-actions>
-                    <v-btn primary large block class="primary">Update</v-btn>
-                  </v-card-actions>
-                </ValidationProvider>
-              </v-card-text>
+              <ValidationObserver ref="observer">
+                <v-card-text>
+                  <ValidationProvider v-slot="{ errors }" name="オーナー名" rules="required|max:100">
+                    <v-text-field
+                      prepend-icon="mdi-account-circle"
+                      v-model="name"
+                      name="name"
+                      :counter="100"
+                      :error-messages="errors"
+                      label="名前"
+                      required
+                    ></v-text-field>
+                    <v-card-actions>
+                      <v-btn primary large block class="primary" @click="userDialogOpen()">Update</v-btn>
+                    </v-card-actions>
+                  </ValidationProvider>
+                </v-card-text>
+              </ValidationObserver>
             </v-card>
           </v-tab-item>
           <v-tab-item>
@@ -63,7 +65,7 @@
                         <td>{{ item.file_name }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>
-                          <v-icon>mdi-delete-forever</v-icon>
+                          <v-icon @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -95,7 +97,7 @@
                         <td>{{ item.file_name }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>
-                          <v-icon>mdi-delete-forever</v-icon>
+                          <v-icon @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -120,14 +122,14 @@
                     </thead>
                     <tbody>
                       <tr v-for="(item, index) in events" :key="index">
-                        <td>{{ item.event_name}}</td>
+                        <td>{{ item.event_name }}</td>
                         <td
                           style="white-space:pre-wrap; word-wrap:break-word;"
                         >{{ item.event_details }}</td>
                         <td>{{ item.event_closing_day }}</td>
                         <td>{{ item.event_displaying_day }}</td>
                         <td>
-                          <v-icon>mdi-delete-forever</v-icon>
+                          <v-icon @click="dialogOpen(item.event_name, item.id)">mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -138,12 +140,15 @@
           </v-tab-item>
         </v-tabs>
       </v-card>
+      <confirm-user-modal ref="userDialog" :name="name"></confirm-user-modal>
+      <delete-user-modal ref="dialog" :delObj="delObj"></delete-user-modal>
     </v-container>
   </v-content>
 </template>
 
 
 <script lang="ts">
+import { TargetDeleteFileObject } from "../../vue-data-entity/TargetDeleteFileObject";
 import { FileDataObject } from "../../vue-data-entity/FileDataObject";
 import { MypageFileObject } from "../../laravel-data-entity/FilePaginateObject";
 import {
@@ -151,15 +156,31 @@ import {
   ScheduleObjectSynchronizedLaravelEvents,
   LaravelApiReturnEventsJson
 } from "../../vue-data-entity/ScheduleDataObject";
+import DeleteUserModal from "../modules/DeleteUserModal.vue";
+import ConfirmUserModal from "../modules/ConfirmUserModal.vue";
+import { ValidationObserver } from "vee-validate";
 import { Vue, Component } from "vue-property-decorator";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
-@Component
+@Component({
+  components: {
+    DeleteUserModal,
+    ConfirmUserModal
+  }
+})
 export default class Mypage extends Vue {
   name: string = "";
   teams: Array<FileDataObject> = [];
   matches: Array<FileDataObject> = [];
   events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
+  delObj: TargetDeleteFileObject = { id: 0, file_name: "" };
+
+  $refs!: {
+    dialog: DeleteUserModal;
+    userDialog: ConfirmUserModal;
+    observer: InstanceType<typeof ValidationObserver>;
+  };
+
   /**
    * name
    */
@@ -187,6 +208,25 @@ export default class Mypage extends Vue {
       .then((res: AxiosResponse<any>): void => {
         this.name = res.data.name;
       });
+  }
+
+  /**
+   * name
+   */
+  public dialogOpen(file_name: string, id: number) {
+    this.delObj.file_name = file_name;
+    this.delObj.id = id;
+    this.$refs.dialog.open();
+  }
+
+  /**
+   * name
+   */
+  public async userDialogOpen() {
+    const isValid = await this.$refs.observer.validate();
+    if (isValid) {
+      this.$refs.userDialog.open();
+    }
   }
 }
 </script>
