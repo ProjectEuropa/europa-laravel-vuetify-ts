@@ -137,7 +137,7 @@
                   ></v-select>
                 </v-col>
                 <v-card-actions class="justify-center">
-                  <v-btn large block class="primary" @click="register()">イベント情報登録</v-btn>
+                  <v-btn large block class="primary" @click="dialogOpen()">イベント情報登録</v-btn>
                 </v-card-actions>
               </v-card>
             </v-row>
@@ -152,16 +152,23 @@
       :timeout="2000"
       :default="false"
     >{{ flash }}</v-snackbar>
+    <confirm-event-notice-modal ref="dialog" :storeObj="storeObj"></confirm-event-notice-modal>
   </v-content>
 </template>
 
 <script lang="ts">
+import { ScheduleObjectSynchronizedLaravelEvents } from "../../vue-data-entity/ScheduleDataObject";
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import { ValidationObserver } from "vee-validate";
+import ConfirmEventNoticeModal from "../modules/ConfirmEventNoticeModal.vue";
 
 import { Vue, Component, Prop } from "vue-property-decorator";
 
-@Component
+@Component({
+  components: {
+    ConfirmEventNoticeModal
+  }
+})
 export default class EventNotice extends Vue {
   items: Array<SelectBoxTextValueObject> = [
     {
@@ -179,10 +186,30 @@ export default class EventNotice extends Vue {
   ];
   $refs!: {
     observer: InstanceType<typeof ValidationObserver>;
+    dialog: ConfirmEventNoticeModal;
   };
-  public register() {
-    (<HTMLFormElement>document.querySelector("#store")).submit();
+  storeObj: ScheduleObjectSynchronizedLaravelEvents = {
+    name: "",
+    event_name: "",
+    event_details: "",
+    start: "",
+    url: "",
+    event_closing_day: "",
+    event_displaying_day: ""
+  };
+
+  public async dialogOpen() {
+    const isValid = await this.$refs.observer.validate();
+    this.storeObj.event_name = this.eventName;
+    this.storeObj.event_details = this.eventDetails;
+    this.storeObj.url = this.url;
+    this.storeObj.event_closing_day = this.closeDay;
+    this.storeObj.event_displaying_day = this.displayDay;
+    if (isValid) {
+      this.$refs.dialog.open();
+    }
   }
+
   csrf: string | null = document
     .querySelector('meta[name="csrf-token"]')!
     .getAttribute("content");
@@ -195,6 +222,7 @@ export default class EventNotice extends Vue {
   menu: boolean = false;
   menu2: boolean = false;
   snackbar: boolean = false;
+
   public created() {
     if (this.flash) {
       this.snackbar = true;
