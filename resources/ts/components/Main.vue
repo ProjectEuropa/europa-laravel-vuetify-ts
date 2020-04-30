@@ -90,7 +90,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="auth">
           <v-list-item-action>
             <v-icon>mdi-account</v-icon>
           </v-list-item-action>
