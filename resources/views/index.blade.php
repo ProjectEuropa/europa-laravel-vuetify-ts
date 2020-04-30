@@ -9,7 +9,8 @@
     </head>
     <body>
       <div id="app" >
-        <app :auth="{{ Auth::user() ?? 'null' }}" flash="{{ session('message') ?? null }}" />      </div>
+        <app :auth="{{ Auth::user() ?? 'null' }}" flash="{{ session('message') ?? null }}" />
+      </div>
       <script src="{{ mix('/js/app.js') }}"></script>
     </body>
 </html>
