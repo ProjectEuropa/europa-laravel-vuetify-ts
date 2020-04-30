@@ -22,22 +22,24 @@
 
           <v-tab-item>
             <v-card flat>
-              <v-card-text>
-                <ValidationProvider v-slot="{ errors }" name="オーナー名" rules="required|max:100">
-                  <v-text-field
-                    prepend-icon="mdi-account-circle"
-                    v-model="name"
-                    name="name"
-                    :counter="100"
-                    :error-messages="errors"
-                    label="名前"
-                    required
-                  ></v-text-field>
-                  <v-card-actions>
-                    <v-btn primary large block class="primary">Update</v-btn>
-                  </v-card-actions>
-                </ValidationProvider>
-              </v-card-text>
+              <ValidationObserver ref="observer">
+                <v-card-text>
+                  <ValidationProvider v-slot="{ errors }" name="オーナー名" rules="required|max:100">
+                    <v-text-field
+                      prepend-icon="mdi-account-circle"
+                      v-model="name"
+                      name="name"
+                      :counter="100"
+                      :error-messages="errors"
+                      label="名前"
+                      required
+                    ></v-text-field>
+                    <v-card-actions>
+                      <v-btn primary large block class="primary" @click="userDialogOpen()">Update</v-btn>
+                    </v-card-actions>
+                  </ValidationProvider>
+                </v-card-text>
+              </ValidationObserver>
             </v-card>
           </v-tab-item>
           <v-tab-item>
@@ -138,6 +140,7 @@
           </v-tab-item>
         </v-tabs>
       </v-card>
+      <confirm-user-modal ref="userDialog" :name="name"></confirm-user-modal>
       <delete-user-modal ref="dialog" :delObj="delObj"></delete-user-modal>
     </v-container>
   </v-content>
@@ -154,12 +157,15 @@ import {
   LaravelApiReturnEventsJson
 } from "../../vue-data-entity/ScheduleDataObject";
 import DeleteUserModal from "../modules/DeleteUserModal.vue";
+import ConfirmUserModal from "../modules/ConfirmUserModal.vue";
+import { ValidationObserver } from "vee-validate";
 import { Vue, Component } from "vue-property-decorator";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 @Component({
   components: {
-    DeleteUserModal
+    DeleteUserModal,
+    ConfirmUserModal
   }
 })
 export default class Mypage extends Vue {
@@ -171,7 +177,10 @@ export default class Mypage extends Vue {
 
   $refs!: {
     dialog: DeleteUserModal;
+    userDialog: ConfirmUserModal;
+    observer: InstanceType<typeof ValidationObserver>;
   };
+
   /**
    * name
    */
@@ -208,6 +217,16 @@ export default class Mypage extends Vue {
     this.delObj.file_name = file_name;
     this.delObj.id = id;
     this.$refs.dialog.open();
+  }
+
+  /**
+   * name
+   */
+  public async userDialogOpen() {
+    const isValid = await this.$refs.observer.validate();
+    if (isValid) {
+      this.$refs.userDialog.open();
+    }
   }
 }
 </script>

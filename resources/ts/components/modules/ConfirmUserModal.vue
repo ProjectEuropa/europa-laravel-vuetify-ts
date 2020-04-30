@@ -1,8 +1,9 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" max-width="290">
+    <v-dialog v-model="dialog" max-width="500">
       <v-card>
-        <v-card-title class="headline">{{ delObj.file_name }}を本当に削除しますか？</v-card-title>
+        <v-card-title class="headline">ユーザー名を更新しますか？</v-card-title>
+
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-flex>
@@ -15,8 +16,8 @@
               text
               :loading="loading"
               :disabled="loading"
-              @click="exexuteDelete()"
-            >削除実行</v-btn>
+              @click="userUpdate()"
+            >更新する</v-btn>
           </v-flex>
         </v-card-actions>
       </v-card>
@@ -31,12 +32,11 @@
 </template>
 
 <script lang="ts">
-import { TargetDeleteFileObject } from "../../vue-data-entity/TargetDeleteFileObject";
-import { Vue, Component, Prop } from "vue-property-decorator";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component
-export default class DeleteUserModal extends Vue {
+export default class ConfirmModal extends Vue {
   dialog: boolean = false;
   loading: boolean = false;
   snackbar: boolean = false;
@@ -47,7 +47,8 @@ export default class DeleteUserModal extends Vue {
   color: string = "success";
 
   @Prop()
-  delObj!: TargetDeleteFileObject;
+  name!: string;
+
   /**
    * name
    */
@@ -64,15 +65,15 @@ export default class DeleteUserModal extends Vue {
   /**
    * name
    */
-  public exexuteDelete() {
+  public userUpdate() {
     this.loading = true;
     Vue.prototype.$http
-      .post("/api/delete/usersRegisteredCloumn", {
-        id: this.delObj.id,
+      .post("/api/userUpdate", {
+        name: this.name,
         _token: this.csrf
       })
       .then((res: AxiosResponse): void => {
-        this.snackbarText = `${this.delObj.file_name}の削除が完了しました。`;
+        this.snackbarText = `ユーザー名の更新が完了しました。`;
         this.color = "success";
         this.snackbar = true;
         this.dialog = false;
@@ -84,7 +85,7 @@ export default class DeleteUserModal extends Vue {
         this.loading = false;
         this.color = "error";
         this.snackbar = true;
-        this.snackbarText = `${this.delObj.file_name}の削除に失敗しました。`;
+        this.snackbarText = `ユーザー名の更新に失敗しました。`;
       });
   }
 }
