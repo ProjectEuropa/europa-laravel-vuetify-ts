@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
 use Socialite;
 use Validator;
 
@@ -81,8 +82,19 @@ class SocialAuthController extends Controller
     {
         $twitterUser = Socialite::driver('twitter')->user();
         $user = $this->findOrCreateUser($twitterUser, 'twitter');
+        $this->authenticated($user);
         Auth::login($user, true);
         return redirect($this->redirectTo);
+    }
+
+    protected function authenticated($user)
+    {
+        $token = Str::random(80);
+
+        User::where('id', $user->id)
+            ->update(['api_token' => hash('sha256', $token)]);
+
+        session()->put('api_token', $token);
     }
 
     // Google
