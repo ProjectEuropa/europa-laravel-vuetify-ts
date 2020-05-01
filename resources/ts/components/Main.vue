@@ -79,7 +79,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="auth">
           <v-list-item-action>
             <v-icon>mdi-bell-ring</v-icon>
           </v-list-item-action>
@@ -155,12 +155,14 @@
 <script lang="ts">
 import { AuthUserObject } from "../vue-data-entity/AuthUserObject";
 import { Vue, Component, Prop } from "vue-property-decorator";
+
 @Component
 export default class App extends Vue {
   drawer: boolean = false;
 
   @Prop()
   auth!: AuthUserObject | null;
+
   @Prop({ default: null })
   flash!: string | null;
 }
