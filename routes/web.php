@@ -21,7 +21,5 @@ Route::group(['middleware' => 'auth.very_basic'], function () {
     Route::get('/auth/twitter', 'Auth\SocialAuthController@getTwitterAuth');
     Route::get('/auth/twitter/callback', 'Auth\SocialAuthController@getTwitterAuthCallback');
 
-    Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('/password/password/reset', 'Auth\ResetPasswordController@reset');
-
+    Auth::routes(['register' => false, 'login' => false]);
 });

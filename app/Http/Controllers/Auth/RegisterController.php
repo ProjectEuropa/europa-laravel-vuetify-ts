@@ -53,11 +53,9 @@ class RegisterController extends Controller
     {
         $token = Str::random(80);
 
-        $user()->forceFill([
-            'api_token' => hash('sha256', $token),
-        ])->save();
+        User::where('id', $user->id)
+            ->update(['api_token' => hash('sha256', $token)]);
 
-        $user()->update(['api_token' => Str::random(60)]);
 
         session()->put('api_token', $token);
     }
