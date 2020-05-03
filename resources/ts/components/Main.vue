@@ -149,6 +149,14 @@
     <v-footer app clipped-center color="blue darken-3 white--text">
       <span>&copy; Team Project Europa 2016-{{new Date().getFullYear()}}</span>
     </v-footer>
+
+    <v-snackbar v-model="snackbar" color="error" :top="true" vertical>
+      サーバー内部でエラーが発生しました。
+      <div v-for="(error, key, index) in errors" :key="index">
+        {{error}}
+      </div>
+      <v-btn dark text @click="snackbar = false">x</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -159,11 +167,24 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class App extends Vue {
   drawer: boolean = false;
+  snackbar: boolean = false;
 
   @Prop()
   auth!: AuthUserObject | null;
 
+  @Prop()
+  errors!: any;
+
   @Prop({ default: null })
   flash!: string | null;
+
+  /**
+   * created
+   */
+  public created() {
+    if (this.errors.length !== 0) {
+      this.snackbar = true;
+    }
+  }
 }
 </script>
