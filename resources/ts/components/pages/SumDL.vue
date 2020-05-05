@@ -39,7 +39,25 @@
                   <v-checkbox :value="item.id" name="checkedId[]" v-model="checkedId"></v-checkbox>
                 </td>
                 <td>{{ item.upload_owner_name }}</td>
-                <td style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</td>
+                <td>
+                  <div style="white-space:pre-wrap; word-wrap:break-word;">{{ item.file_comment }}</div>
+                  <span v-if="item.search_tag1" role="alert" class="theme--light search__tag">
+                    <v-icon>mdi-magnify</v-icon>
+                    {{ item.search_tag1 }}
+                  </span>
+                  <span v-if="item.search_tag2" role="alert" class="theme--light search__tag">
+                    <v-icon>mdi-magnify</v-icon>
+                    {{ item.search_tag2 }}
+                  </span>
+                  <span v-if="item.search_tag3" role="alert" class="theme--light search__tag">
+                    <v-icon>mdi-magnify</v-icon>
+                    {{ item.search_tag3 }}
+                  </span>
+                  <span v-if="item.search_tag4" role="alert" class="theme--light search__tag">
+                    <v-icon>mdi-magnify</v-icon>
+                    {{ item.search_tag4 }}
+                  </span>
+                </td>
                 <td>{{ item.file_name }}</td>
                 <td>{{ item.created_at }}</td>
               </tr>
@@ -194,3 +212,13 @@ export default class SumDLTeamData extends Vue {
   }
 }
 </script>
+
+<style>
+.search__tag {
+  padding: 5px;
+  margin-right: 10px;
+  border-radius: 5%;
+  background-color: aliceblue;
+}
+</style>
+
