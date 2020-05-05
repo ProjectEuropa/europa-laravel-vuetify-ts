@@ -18,7 +18,7 @@ class SearchController extends Controller
     {
         $files = File::select('id', 'upload_owner_name', 'file_name', 'file_comment', 'created_at', 'upload_user_id', 'upload_type', 'search_tag1', 'search_tag2', 'search_tag3', 'search_tag4')
             ->where('data_type', '=', $searchType === "team" ? '1' : '2')
-            ->orderby('id', $request->orderType === '1' || $request->orderType === null ? 'asc' : 'desc');
+            ->orderby('id', $request->orderType === '1' || $request->orderType === null ? 'desc' : 'asc');
 
         $keyword = $request->keyword;
         if ($keyword) {
@@ -53,7 +53,7 @@ class SearchController extends Controller
     {
         $files = File::select('id', 'upload_owner_name', 'file_name', 'file_comment', 'created_at', 'upload_user_id', 'search_tag1', 'search_tag2', 'search_tag3', 'search_tag4')
             ->where('data_type', '=', $searchType === "team" ? '1' : '2')
-            ->orderby('id', $request->orderType === '1' || $request->orderType === null ? 'asc' : 'desc');
+            ->orderby('id', $request->orderType === '1' || $request->orderType === null ? 'desc' : 'asc');
 
         $keyword = $request->keyword;
         if ($keyword) {

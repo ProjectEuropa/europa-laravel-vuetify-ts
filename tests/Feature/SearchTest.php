@@ -87,23 +87,23 @@ class SearchTest extends TestCase
         // チームデータ検索
         $response = $this->json('GET', '/api/search/team?orderType=2');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '1')->orderBy('id', 'desc')->first();
+        $file = File::where('data_type', '=', '1')->orderBy('id', 'asc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
 
         $response = $this->json('GET', '/api/search/team?orderType=1');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '1')->orderBy('id', 'asc')->first();
+        $file = File::where('data_type', '=', '1')->orderBy('id', 'desc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
 
         // マッチデータ検索
         $response = $this->json('GET', '/api/search/match?orderType=2');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '2')->orderBy('id', 'desc')->first();
+        $file = File::where('data_type', '=', '2')->orderBy('id', 'asc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
 
         $response = $this->json('GET', '/api/search/match?orderType=1');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '2')->orderBy('id', 'asc')->first();
+        $file = File::where('data_type', '=', '2')->orderBy('id', 'desc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
     }
 
@@ -204,23 +204,23 @@ class SearchTest extends TestCase
         // チームデータ検索
         $response = $this->json('GET', '/api/sumDLSearch/team?orderType=2');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '1')->orderBy('id', 'desc')->first();
+        $file = File::where('data_type', '=', '1')->orderBy('id', 'asc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
 
         $response = $this->json('GET', '/api/sumDLSearch/team?orderType=1');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '1')->orderBy('id', 'asc')->first();
+        $file = File::where('data_type', '=', '1')->orderBy('id', 'desc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
 
         // マッチデータ検索
         $response = $this->json('GET', '/api/sumDLSearch/match?orderType=2');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '2')->orderBy('id', 'desc')->first();
+        $file = File::where('data_type', '=', '2')->orderBy('id', 'asc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
 
         $response = $this->json('GET', '/api/sumDLSearch/match?orderType=1');
         $json = (json_decode($response->getContent()));
-        $file = File::where('data_type', '=', '2')->orderBy('id', 'asc')->first();
+        $file = File::where('data_type', '=', '2')->orderBy('id', 'desc')->first();
         $this->assertEquals($file->id, $json->data[0]->id);
     }
 }
