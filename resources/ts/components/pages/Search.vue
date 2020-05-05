@@ -54,7 +54,7 @@
               <td>{{ item.file_name }}</td>
               <td>{{ item.created_at }}</td>
               <td>
-                <v-icon @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
+                <v-icon v-if="item.upload_type === '2'" @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
               </td>
             </tr>
           </tbody>
