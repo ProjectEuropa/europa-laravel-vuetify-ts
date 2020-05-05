@@ -57,7 +57,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in matches" :key="index">
+                      <tr v-for="(item, index) in teams" :key="index">
                         <td>{{ item.upload_owner_name }}</td>
                         <td
                           style="white-space:pre-wrap; word-wrap:break-word;"
@@ -89,7 +89,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="(item, index) in teams" :key="index">
+                      <tr v-for="(item, index) in matches" :key="index">
                         <td>{{ item.upload_owner_name }}</td>
                         <td
                           style="white-space:pre-wrap; word-wrap:break-word;"
