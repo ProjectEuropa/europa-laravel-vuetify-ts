@@ -15,6 +15,7 @@ export interface ScheduleObjectSynchronizedLaravelEvents
   event_name: string;
   event_details: string;
   event_displaying_day: string;
+  event_reference_url?: string;
 }
 
 export interface LaravelApiReturnEventsJson {
