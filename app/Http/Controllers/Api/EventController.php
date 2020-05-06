@@ -22,25 +22,4 @@ class EventController extends Controller
             ->get();
         return ['data' => $data];
     }
-
-    public function deleteUserEvents(Request $request)
-    {
-        $result = DB::transaction(function () use ($request) {
-            $numDeleteCount = Event::where('register_user_id', $request->user()->id)
-                ->where('id', $request->id)
-                ->delete();
-
-            if ($numDeleteCount !== 1) {
-                throw new \Exception("ファイルの削除に失敗しました。ファイル削除数は${numDeleteCount}です。");
-            } else {
-                return $numDeleteCount;
-            }
-        });
-
-        if ($result === 1) {
-            return $result;
-        } else {
-            throw new \Exception("ファイルの削除に失敗しました");
-        }
-    }
 }

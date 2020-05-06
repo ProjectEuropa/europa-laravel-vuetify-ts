@@ -65,7 +65,7 @@
                         <td>{{ item.file_name }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>
-                          <v-icon @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
+                          <v-icon @click="dialogOpen(item.file_name, item.id, 'team')">mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -97,7 +97,7 @@
                         <td>{{ item.file_name }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>
-                          <v-icon @click="dialogOpen(item.file_name, item.id)">mdi-delete-forever</v-icon>
+                          <v-icon @click="dialogOpen(item.file_name, item.id, 'match')">mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -129,7 +129,7 @@
                         <td>{{ item.event_closing_day }}</td>
                         <td>{{ item.event_displaying_day }}</td>
                         <td>
-                          <v-icon @click="dialogOpen(item.event_name, item.id)">mdi-delete-forever</v-icon>
+                          <v-icon @click="dialogOpen(item.event_name, item.id, 'event')">mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -141,7 +141,7 @@
         </v-tabs>
       </v-card>
       <confirm-user-modal ref="userDialog" :name="name"></confirm-user-modal>
-      <delete-user-modal ref="dialog" :delObj="delObj"></delete-user-modal>
+      <delete-user-modal ref="dialog" :delObj="delObj" :fileType="fileType"></delete-user-modal>
     </v-container>
   </v-content>
 </template>
@@ -174,6 +174,7 @@ export default class Mypage extends Vue {
   matches: Array<FileDataObject> = [];
   events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
   delObj: TargetDeleteFileObject = { id: 0, file_name: "" };
+  fileType: string = "";
 
   $refs!: {
     dialog: DeleteUserModal;
@@ -213,9 +214,10 @@ export default class Mypage extends Vue {
   /**
    * name
    */
-  public dialogOpen(file_name: string, id: number) {
+  public dialogOpen(file_name: string, id: number, fileType :string) {
     this.delObj.file_name = file_name;
     this.delObj.id = id;
+    this.fileType = fileType;
     this.$refs.dialog.open();
   }
 
