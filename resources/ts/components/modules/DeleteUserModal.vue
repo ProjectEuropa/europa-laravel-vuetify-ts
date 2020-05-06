@@ -48,6 +48,10 @@ export default class DeleteUserModal extends Vue {
 
   @Prop()
   delObj!: TargetDeleteFileObject;
+
+  @Prop()
+  fileType!: string;
+
   /**
    * name
    */
@@ -69,6 +73,7 @@ export default class DeleteUserModal extends Vue {
     Vue.prototype.$http
       .post("/api/delete/usersRegisteredCloumn", {
         id: this.delObj.id,
+        fileType: this.fileType,
         _token: this.csrf
       })
       .then((res: AxiosResponse): void => {
