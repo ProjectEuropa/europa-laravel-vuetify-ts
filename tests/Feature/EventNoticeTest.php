@@ -34,8 +34,8 @@ class EventNoticeTest extends TestCase
             'event_details' => 'phpunit details',
             'event_reference_url' => 'phpunit url',
             'event_type' => 1,
-            'event_closing_day' => $now,
-            'event_displaying_day' => $now,
+            'event_closing_day' => $now . ' 23:59:00',
+            'event_displaying_day' => $now . ' 23:59:00',
         ]);
         $response->assertLocation('/eventnotice');
     }

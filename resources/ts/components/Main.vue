@@ -8,7 +8,10 @@
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>
-              <router-link class="black--text" to="/information">Information</router-link>
+              <v-badge color="blue" :content="content" v-if="content !== 0">
+                <router-link class="black--text" to="/information">Information</router-link>
+              </v-badge>
+                <router-link class="black--text" to="/information" v-else>Information</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -152,22 +155,28 @@
 
     <v-snackbar v-model="snackbar" color="error" :top="true" vertical>
       サーバー内部でエラーが発生しました。
-      <div v-for="(error, key, index) in errors" :key="index">
-        {{error}}
-      </div>
+      <div v-for="(error, key, index) in errors" :key="index">{{error}}</div>
       <v-btn dark text @click="snackbar = false">x</v-btn>
     </v-snackbar>
   </v-app>
 </template>
 
 <script lang="ts">
+import {
+  ScheduleObject,
+  ScheduleObjectSynchronizedLaravelEvents,
+  LaravelApiReturnEventsJson
+} from "../vue-data-entity/ScheduleDataObject";
 import { AuthUserObject } from "../vue-data-entity/AuthUserObject";
 import { Vue, Component, Prop } from "vue-property-decorator";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 @Component
 export default class App extends Vue {
   drawer: boolean = false;
   snackbar: boolean = false;
+  events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
+  content: number = 0;
 
   @Prop()
   auth!: AuthUserObject | null;
@@ -185,6 +194,19 @@ export default class App extends Vue {
     if (this.errors.length !== 0) {
       this.snackbar = true;
     }
+    this.getEvents();
+  }
+
+  public getEvents() {
+    Vue.prototype.$http
+      .get(`/api/event`)
+      .then((res: AxiosResponse<LaravelApiReturnEventsJson>): void => {
+        this.events = res.data.data;
+        this.content = this.events.length;
+      })
+      .catch((error: AxiosError): void => {
+        alert("検索実行時にエラーが発生しました");
+      });
   }
 }
 </script>

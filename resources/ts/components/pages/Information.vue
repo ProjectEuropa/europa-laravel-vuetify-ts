@@ -67,24 +67,12 @@
             >
               <v-card color="grey lighten-4" min-width="350px" flat v-if="selectedEvent">
                 <v-toolbar :color="'blue'" dark>
-                  <v-btn icon>
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                  <a :href="selectedEvent.event_reference_url" target="_blank" style="color: inherit;"><v-toolbar-title>{{ selectedEvent.name }}</v-toolbar-title></a>
                   <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
                 </v-toolbar>
                 <v-card-text>
-                  <span v-html="selectedEvent.details"></span>
+                  <span>{{ selectedEvent.details }}</span>
                 </v-card-text>
-                <v-card-actions>
-                  <v-btn text color="secondary" @click="selectedOpen = false">Cancel</v-btn>
-                </v-card-actions>
               </v-card>
             </v-menu>
           </v-sheet>
@@ -141,10 +129,11 @@ export default class Information extends Vue {
   };
   start: CalendarTimestamp | null = null;
   end: CalendarTimestamp | null = null;
-  selectedEvent: ScheduleObject | null = null;
+  selectedEvent: ScheduleObjectSynchronizedLaravelEvents | null = null;
   selectedElement: HTMLInputElement | null = null;
   selectedOpen: boolean = false;
   events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
+
   public getEvents() {
     Vue.prototype.$http
       .get(`/api/event`)
@@ -163,6 +152,7 @@ export default class Information extends Vue {
         alert("検索実行時にエラーが発生しました");
       });
   }
+
   public created() {
     this.getEvents();
   }
@@ -220,7 +210,7 @@ export default class Information extends Vue {
     event
   }: {
     nativeEvent: HTMLElementEvent<HTMLInputElement>;
-    event: ScheduleObject;
+    event: ScheduleObjectSynchronizedLaravelEvents;
   }) {
     const open = () => {
       this.selectedEvent = event;
