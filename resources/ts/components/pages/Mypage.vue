@@ -65,7 +65,9 @@
                         <td>{{ item.file_name }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>
-                          <v-icon @click="dialogOpen(item.file_name, item.id, 'team')">mdi-delete-forever</v-icon>
+                          <v-icon
+                            @click="dialogOpen(item.file_name, item.id, 'team')"
+                          >mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -97,7 +99,9 @@
                         <td>{{ item.file_name }}</td>
                         <td>{{ item.created_at }}</td>
                         <td>
-                          <v-icon @click="dialogOpen(item.file_name, item.id, 'match')">mdi-delete-forever</v-icon>
+                          <v-icon
+                            @click="dialogOpen(item.file_name, item.id, 'match')"
+                          >mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -129,7 +133,9 @@
                         <td>{{ item.event_closing_day }}</td>
                         <td>{{ item.event_displaying_day }}</td>
                         <td>
-                          <v-icon @click="dialogOpen(item.event_name, item.id, 'event')">mdi-delete-forever</v-icon>
+                          <v-icon
+                            @click="dialogOpen(item.event_name, item.id, 'event')"
+                          >mdi-delete-forever</v-icon>
                         </td>
                       </tr>
                     </tbody>
@@ -208,13 +214,17 @@ export default class Mypage extends Vue {
       .get(`/api/user`)
       .then((res: AxiosResponse<any>): void => {
         this.name = res.data.name;
+      })
+      .catch((): void => {
+        alert("ユーザー情報の取得に失敗しました。ログアウトして再ログインしてください。");
+        location.href = "/auth/logout";
       });
   }
 
   /**
    * name
    */
-  public dialogOpen(file_name: string, id: number, fileType :string) {
+  public dialogOpen(file_name: string, id: number, fileType: string) {
     this.delObj.file_name = file_name;
     this.delObj.id = id;
     this.fileType = fileType;
