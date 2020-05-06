@@ -30,7 +30,7 @@ class UploadController extends Controller
         ];
 
         $this->fileService->registerFileData($request, $arrayIsTeamOrNormarUpdate);
-
+        
         return redirect('/simpleupload')->with('message', 'チームデータのアップロードが完了しました');
     }
 

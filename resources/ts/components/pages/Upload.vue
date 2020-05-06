@@ -3,6 +3,7 @@
     <v-container fluid class="d-flex">
       <v-col cols="12" md="12">
         <v-form ref="form" lazy-validation justify="center">
+		      <input type="hidden" name="_token" :value="csrf" />
           <v-row align="center" justify="center">
             <v-card class="mx-auto">
               <v-card-title class="blue">
@@ -157,6 +158,9 @@ export default class Upload extends Vue {
   comment: string = "";
   searchTag: Array<string> = [];
   deletePassword: string = "";
+  csrf: string | null = document
+    .querySelector('meta[name="csrf-token"]')!
+    .getAttribute("content");
 
   /**
    * watch
@@ -178,7 +182,12 @@ export default class Upload extends Vue {
   public dialogOpen() {
     this.$refs.dialog.open();
   }
-
+  public teamUpload() {
+    (<HTMLFormElement>document.querySelector("#team-upload")).submit();
+  }
+  public matchUpload() {
+    (<HTMLFormElement>document.querySelector("#match-upload")).submit();
+  }
   /**
    * name
    */
