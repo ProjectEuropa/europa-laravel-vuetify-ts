@@ -38,7 +38,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="!auth">
           <v-list-item-action>
             <v-icon>mdi-upload</v-icon>
           </v-list-item-action>
@@ -49,7 +49,7 @@
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item>
+        <v-list-item v-if="auth">
           <v-list-item-action>
             <v-icon>mdi-upload</v-icon>
           </v-list-item-action>
@@ -155,7 +155,7 @@
 
     <v-snackbar v-model="snackbar" color="error" :top="true" vertical>
       サーバー内部でエラーが発生しました。
-      <div v-for="(error, key, index) in errors" :key="index">{{error}}</div>
+      <div v-for="(error, key, index) in errors" :key="index">{{ error.toString() }}</div>
       <v-btn dark text @click="snackbar = false">x</v-btn>
     </v-snackbar>
   </v-app>
