@@ -145,13 +145,6 @@
         </ValidationObserver>
       </v-col>
     </v-container>
-    <v-snackbar
-      v-model="snackbar"
-      :vertical="true"
-      color="success"
-      :timeout="2000"
-      :default="false"
-    >{{ flash }}</v-snackbar>
     <confirm-event-notice-modal ref="dialog" :storeObj="storeObj"></confirm-event-notice-modal>
   </v-content>
 </template>
@@ -161,7 +154,6 @@ import { ScheduleObjectSynchronizedLaravelEvents } from "../../vue-data-entity/S
 import { SelectBoxTextValueObject } from "../../vue-data-entity/SelectBoxTextValueObject";
 import { ValidationObserver } from "vee-validate";
 import ConfirmEventNoticeModal from "../modules/ConfirmEventNoticeModal.vue";
-
 import { Vue, Component, Prop } from "vue-property-decorator";
 
 @Component({
@@ -222,13 +214,5 @@ export default class EventNotice extends Vue {
   menu: boolean = false;
   menu2: boolean = false;
   snackbar: boolean = false;
-
-  public created() {
-    if (this.flash) {
-      this.snackbar = true;
-    }
-  }
-  @Prop({ default: null })
-  flash!: string | null;
 }
 </script>

@@ -11,7 +11,7 @@
               <v-badge color="blue" :content="content" v-if="content !== 0">
                 <router-link class="black--text" to="/information">Information</router-link>
               </v-badge>
-                <router-link class="black--text" to="/information" v-else>Information</router-link>
+              <router-link class="black--text" to="/information" v-else>Information</router-link>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -153,11 +153,19 @@
       <span>&copy; Team Project Europa 2016-{{new Date().getFullYear()}}</span>
     </v-footer>
 
-    <v-snackbar v-model="snackbar" color="error" :top="true" vertical>
+    <v-snackbar v-model="snackMessage" color="error" :top="true" vertical>
       サーバー内部でエラーが発生しました。
       <div v-for="(error, key, index) in errors" :key="index">{{ error.toString() }}</div>
       <v-btn dark text @click="snackbar = false">x</v-btn>
     </v-snackbar>
+
+    <v-snackbar
+      v-model="flashMessage"
+      :vertical="true"
+      color="success"
+      :timeout="2000"
+      :default="false"
+    >{{ flash }}</v-snackbar>
   </v-app>
 </template>
 
@@ -174,7 +182,8 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 @Component
 export default class App extends Vue {
   drawer: boolean = false;
-  snackbar: boolean = false;
+  snackMessage: boolean = false;
+  flashMessage: boolean = false;
   events: Array<ScheduleObjectSynchronizedLaravelEvents> = [];
   content: number = 0;
 
@@ -192,7 +201,10 @@ export default class App extends Vue {
    */
   public created() {
     if (this.errors.length !== 0) {
-      this.snackbar = true;
+      this.snackMessage = true;
+    }
+    if (this.flash) {
+      this.flashMessage = true;
     }
     this.getEvents();
   }
