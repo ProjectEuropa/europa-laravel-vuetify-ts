@@ -1,21 +1,25 @@
 <?php
 
-/**
- * Forward specific route to nuxt router
- *
- * This route is redered by `<nuxtRoot>/pages/index.vue`
- */
-
-use Illuminate\Http\Request;
-
 Route::group(['middleware' => 'auth.very_basic'], function () {
+    Route::get('/', function () {
+        return view('index');
+    });
+    Route::get('/upload', function () {
+        return view('index');
+    });
     Route::get('/{any}', function () {
         return view('index');
-    })->where('any', '.*');
+    })->where('any', '[^aut].*$');
 
-    Route::post('/team/simpleupload', 'UploadController@teamSimpleUpload');
-    Route::post('/match/simpleupload', 'UploadController@matchSimpleUpload');
-    Route::post('/team/upload', 'UploadController@teamSimpleUpload');
-    Route::post('/match/upload', 'UploadController@matchSimpleUpload');
-    
+    Route::post('/login', 'Auth\LoginController@login');
+    Route::post('/register', 'Auth\RegisterController@register');
+    Route::get('/auth/logout', 'Auth\LoginController@logout');
+    Route::get('/auto/download/{id}', 'FileConventionalUtilController@download');
+    Route::post('/sumDownload', 'FileConventionalUtilController@sumDownload');
+    Route::post('/eventNotice', 'EventNoticeController@store');
+
+    Route::get('/auth/twitter', 'Auth\SocialAuthController@getTwitterAuth');
+    Route::get('/auth/twitter/callback', 'Auth\SocialAuthController@getTwitterAuthCallback');
+
+    Auth::routes(['register' => false, 'login' => false]);
 });

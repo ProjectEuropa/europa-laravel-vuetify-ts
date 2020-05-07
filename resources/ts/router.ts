@@ -3,14 +3,15 @@ import Router from 'vue-router'
 import Top from './components/pages/Top.vue'
 import Upload from './components/pages/Upload.vue'
 import SimpleUpload from './components/pages/SimpleUpload.vue'
-import SearchTeam from './components/pages/SearchTeam.vue'
-import SearchMatch from './components/pages/SearchMatch.vue'
-import SumDLTeamData from './components/pages/SumDLTeamData.vue'
-import SumDLMatchData from './components/pages/SumDLMatchData.vue'
+import Search from './components/pages/Search.vue'
+import SumDL from './components/pages/SumDL.vue'
 import Login from './components/pages/Login.vue'
 import Register from './components/pages/Register.vue'
 import Information from './components/pages/Information.vue'
 import EventNotice from './components/pages/EventNotice.vue'
+import Mypage from './components/pages/Mypage.vue'
+import PasswordEmail from './components/pages/PasswordEmail.vue'
+import PasswordReset from './components/pages/PasswordReset.vue'
 
 Vue.use(Router)
 
@@ -33,24 +34,14 @@ const router = new Router({
       component: SimpleUpload,
     },
     {
-      path: '/search/team',
-      name: 'SearchTeam',
-      component: SearchTeam,
+      path: '/search/:searchType',
+      name: 'Search',
+      component: Search,
     },
     {
-      path: '/search/match',
-      name: 'SearchMatch',
-      component: SearchMatch,
-    },
-    {
-      path: '/sumdownload/team',
-      name: 'SumDLTeamData',
-      component: SumDLTeamData,
-    },
-    {
-      path: '/sumdownload/match',
-      name: 'SumDLMatchData',
-      component: SumDLMatchData,
+      path: '/sumdownload/:searchType',
+      name: 'SumDL',
+      component: SumDL,
     },
     {
       path: '/login',
@@ -71,6 +62,21 @@ const router = new Router({
       path: '/eventnotice',
       name: 'EventNotice',
       component: EventNotice,
+    },
+    {
+      path: '/mypage',
+      name: 'Mypage',
+      component: Mypage,
+    },
+    {
+      path: '/password/email',
+      name: 'PasswordEmail',
+      component: PasswordEmail,
+    },
+    {
+      path: '/password/reset/:token',
+      name: 'PasswordReset',
+      component: PasswordReset,
     },
   ]
 });

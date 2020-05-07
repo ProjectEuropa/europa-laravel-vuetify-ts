@@ -12,6 +12,8 @@ class FileDummySeeder extends Seeder
     public function run()
     {
       App\File::truncate();
-      factory(App\File::class, 50)->create();
+      factory(App\File::class, 50)->create([
+        'delete_password' => 'hoge'
+      ]);
     }
 }

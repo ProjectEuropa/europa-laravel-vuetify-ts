@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,14 +23,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(UrlGenerator $url)
     {
-        // CHEファイルバリデーション
-        Validator::extend('che_file', 'App\Validation\CustomValidator@validateCheFile');
-        //ローカル以外（本番環境下）ではhttpsを強制する
-        if (!\App::environment('local')) 
-        {
-            $this->app['request']->server->set('HTTPS','on');
+        if (in_array(config('app.env'), ['production', 'staging'], true)) {
+            $url->forceScheme('https');
         }
     }
 }

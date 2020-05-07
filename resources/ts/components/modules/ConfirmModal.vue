@@ -15,7 +15,7 @@
             <v-icon left>mdi-tag-plus</v-icon>検索タグ:
           </v-chip>
           <v-chip class="ma-2" color="blue" label text-color="white" cols="12" md="12">
-            <v-icon left>mdi-append-icon</v-icon>アップロードファイル:
+            <v-icon left>mdi-paperclip</v-icon>アップロードファイル:
           </v-chip>
         </v-card-text>
         <v-card-actions>

@@ -12,13 +12,21 @@
                     <v-icon>mdi-upload</v-icon>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title class="headline white--text">アップロード(チームデータ)</v-list-item-title>
-                    <v-list-item-subtitle class="white--text">チームデータのアップロードが可能です。</v-list-item-subtitle>
+                    <v-list-item-title class="headline white--text"
+                      >アップロード(チームデータ)</v-list-item-title
+                    >
+                    <v-list-item-subtitle class="white--text"
+                      >チームデータのアップロードが可能です。</v-list-item-subtitle
+                    >
                   </v-list-item-content>
                 </v-list-item>
               </v-card-title>
               <v-col cols="12" md="12">
-                <ValidationProvider v-slot="{ errors }" name="オーナー名" rules="required|max:100">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="オーナー名"
+                  rules="required|max:100"
+                >
                   <v-text-field
                     prepend-icon="mdi-account-circle"
                     v-model="ownerName"
@@ -28,7 +36,11 @@
                     required
                   ></v-text-field>
                 </ValidationProvider>
-                <ValidationProvider v-slot="{ errors }" name="コメント" rules="required|max:200">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="コメント"
+                  rules="required|max:200"
+                >
                   <v-textarea
                     prepend-icon="mdi-comment-multiple-outline"
                     v-model="comment"
@@ -63,10 +75,18 @@
                     </v-chip>
                   </template>
                 </v-combobox>
-                <v-file-input append-icon show-size counter multiple label="チームデータ"></v-file-input>
+                <v-file-input
+                  append-icon
+                  show-size
+                  counter
+                  multiple
+                  label="チームデータ"
+                ></v-file-input>
               </v-col>
               <v-card-actions class="justify-center">
-                <v-btn large block class="primary" @click="dialogOpen">チームデータアップロード</v-btn>
+                <v-btn large block class="primary" @click="dialogOpen"
+                  >チームデータアップロード</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-row>
@@ -84,8 +104,12 @@
                     <v-icon>mdi-upload</v-icon>
                   </v-list-item-action>
                   <v-list-item-content>
-                    <v-list-item-title class="headline white--text">アップロード(マッチデータ)</v-list-item-title>
-                    <v-list-item-subtitle class="white--text">マッチデータのアップロードが可能です。</v-list-item-subtitle>
+                    <v-list-item-title class="headline white--text"
+                      >アップロード(マッチデータ)</v-list-item-title
+                    >
+                    <v-list-item-subtitle class="white--text"
+                      >マッチデータのアップロードが可能です。</v-list-item-subtitle
+                    >
                   </v-list-item-content>
                 </v-list-item>
               </v-card-title>
@@ -129,10 +153,18 @@
                     </v-chip>
                   </template>
                 </v-combobox>
-                <v-file-input append-icon show-size counter multiple label="チームデータ"></v-file-input>
+                <v-file-input
+                  append-icon
+                  show-size
+                  counter
+                  multiple
+                  label="チームデータ"
+                ></v-file-input>
               </v-col>
               <v-card-actions class="justify-center">
-                <v-btn large block color="blue-grey" class="white--text">マッチデータアップロード</v-btn>
+                <v-btn large block color="blue-grey" class="white--text"
+                  >マッチデータアップロード</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-row>
@@ -195,10 +227,10 @@ export default class Upload extends Vue {
     Vue.prototype.$http
       .get("/api/user")
       .then((res: any): void => {
-        console.log("OK")
+        console.log("OK");
       })
       .catch((err: any): void => {
-        console.error("かならずError出ます")
+        console.error("かならずError出ます");
       });
   }
 }

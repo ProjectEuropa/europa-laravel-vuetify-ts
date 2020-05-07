@@ -16,6 +16,7 @@ services:
       context: ./php-fpm
     depends_on:
       - pg
+      - mailhog
     ports:
       - 9000:9000
       - 8001:8001
@@ -37,13 +38,16 @@ services:
       - POSTGRES_DB=testdb
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
-    # volumes:
-    #   - ./data:/var/lib/postgresql/data
+    volumes:
+      - ./data:/var/lib/postgresql/data
     container_name: "pg-pe-12"
   pggui:
     container_name: pgweb
     image: sosedoff/pgweb
     ports:
       - 8081:8081
-    depends_on:
-      - pg
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8025:8025
