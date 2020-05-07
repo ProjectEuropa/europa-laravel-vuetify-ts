@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Event;
 use App\User;
+use App\Http\Requests\EventNoticeRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,7 @@ class EventNoticeController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Request $request)
+    public function store(EventNoticeRequest $request)
     {
         $user = Auth::user();
         $eventReferenceUrl = $request->eventReferenceUrl ?? null;

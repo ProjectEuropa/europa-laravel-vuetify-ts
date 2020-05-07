@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\Http\Requests\FileConventionalUtilRequest;
 use Madzipper;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class FileConventionalUtilController extends Controller
         return response()->download($cheData, $title, $headers)->deleteFileAfterSend(true);
     }
 
-    public function sumDownload(Request $request)
+    public function sumDownload(FileConventionalUtilRequest $request)
     {
         // リクエストから取得したIDを元にファイルデータ抽出
         $fileIds = $request->input('checkedId');
