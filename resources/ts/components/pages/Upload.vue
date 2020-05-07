@@ -253,7 +253,21 @@ export default class SimpleUpload extends Vue {
     if (this.flash) {
       this.snackbar = true;
     }
+
+    Vue.prototype.$http
+      .get(`/api/user`)
+      .then((res: any): void => {
+        this.ownerName = res.data.name;
+        this.matchOwnerName = res.data.name;
+      })
+      .catch((error: any): void => {
+        alert(
+          "ユーザー情報の取得に失敗しました。ログアウトして再ログインしてください。"
+        );
+        location.href = "/auth/logout";
+      });
   }
+
   /**
    * watch
    */
