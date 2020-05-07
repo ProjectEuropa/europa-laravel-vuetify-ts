@@ -27,6 +27,9 @@ const router = new Router({
       path: '/upload',
       name: 'Upload',
       component: Upload,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/simpleupload',
@@ -62,11 +65,17 @@ const router = new Router({
       path: '/eventnotice',
       name: 'EventNotice',
       component: EventNotice,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/mypage',
       name: 'Mypage',
       component: Mypage,
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/password/email',
@@ -81,4 +90,29 @@ const router = new Router({
   ]
 });
 
-export default router
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
+    Vue.prototype.$http.get("/api/user").then((res: any) => {
+      const user = res.data;
+      if (user) {
+        next()
+      } else {
+        next({
+          path: '/login',
+        })
+      }
+    }).catch((error: any) => {
+      if (error.response.status === 401) {
+        alert("未認証のユーザーのためLogin画面でログインを行ってください");
+      } else {
+        alert("予期しないエラーが発生しました。再度ログインを行ってください");
+      }
+      next({
+        path: '/login',
+      })
+    });
+  } else {
+    next()
+  }
+})
+export default router;
