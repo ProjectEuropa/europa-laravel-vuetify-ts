@@ -238,11 +238,7 @@ export default class SimpleUpload extends Vue {
     match: InstanceType<typeof ValidationObserver>;
   };
 
-  @Prop()
-  flash!: string | null;
-
   public created() {
-
     Vue.prototype.$http
       .get(`/api/user`)
       .then((res: any): void => {
