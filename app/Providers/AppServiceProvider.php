@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(UrlGenerator $url)
     {
+        // CHEファイルバリデーション
+        Validator::extend('che_file', 'App\Validation\CustomValidator@validateCheFile');
         if (in_array(config('app.env'), ['production', 'staging'], true)) {
             $url->forceScheme('https');
         }

@@ -1,15 +1,17 @@
 <?php
 namespace App\BusinessService;
 
-use Illuminate\Http\Request;
 use App\File;
 use Auth;
 use DB;
+use Illuminate\Http\Request;
+
 /*
  * FileService
  * Fileモデルに関わるロジックを記述
  */
-class FileService {
+class FileService
+{
 
     /**
      * ファイルデータ登録処理
@@ -17,7 +19,7 @@ class FileService {
      * @param  array ['isTeam']  true場合チーム falseの場合マッチデータ ['isNormalUpdate']true通常アップロード場合チーム falseの場合簡易アップロード
      * @return void
      */
-    public function registerFileData(Request $request, array $arrayIsTeamOrNormarUpdate) 
+    public function registerFileData(Request $request, array $arrayIsTeamOrNormarUpdate)
     {
         $dataType = null;
         $file = null;
@@ -25,39 +27,33 @@ class FileService {
         $fileComment = null;
         $deletePassword = null;
         $searchTags = null;
-        
+
         // チームFlgがオンならばチームデータを取得、offならばマッチデータ
-        if ($arrayIsTeamOrNormarUpdate['isTeam']) 
-        {
+        if ($arrayIsTeamOrNormarUpdate['isTeam']) {
             $dataType = \Config::get('const.DB_STR_DATA_TYPE_TEAM');
             $file = $request->file('teamFile');
             $uploadOwnerName = $request->input('teamOwnerName'); // アップロードオーナー名（編集可能）
             $fileComment = $request->input('teamComment'); // コメント
             $deletePassword = $request->input('teamDeletePassWord'); // 削除パスワード
-            $searchTags = $request->input('teamSearchTags'); // 検索タグ
-        }
-        else 
-        {
+            $searchTags = explode(',', $request->input('teamSearchTags')); // 検索タグ
+        } else {
             $dataType = \Config::get('const.DB_STR_DATA_TYPE_MATCH');
             $file = $request->file('matchFile');
             $uploadOwnerName = $request->input('matchOwnerName'); // アップロードオーナー名（編集可能）
             $fileComment = $request->input('matchComment'); // コメント
             $deletePassword = $request->input('matchDeletePassWord'); // 削除パスワード
-            $searchTags = $request->input('matchSearchTags'); // 検索タグ
+            $searchTags = explode(',', $request->input('matchSearchTags')); // 検索タグ
         }
-        $fileData = file_get_contents($file);       // ファイルのバイナリデータ取得
-        $fileName = $file->getClientOriginalName();     // ファイル名
+        $fileData = file_get_contents($file); // ファイルのバイナリデータ取得
+        $fileName = $file->getClientOriginalName(); // ファイル名
         $now = date('Y/m/d H:i:s'); // 現在日付
         $uploadUserId = null;
         $uploadType = null;
         // 通常アップロードであるならばセッションのユーザーIDを登録
-        if ($arrayIsTeamOrNormarUpdate['isNormalUpdate']) 
-        {
+        if ($arrayIsTeamOrNormarUpdate['isNormalUpdate']) {
             $uploadUserId = Auth::user()->id;
             $uploadType = \Config::get('const.DB_UPLOAD_TYPE_NORMAL'); //通常アップロード
-        }
-        else 
-        {
+        } else {
             $uploadUserId = 0;
             $uploadType = \Config::get('const.DB_UPLOAD_TYPE_SIMPLE'); //簡易アップロード
         }
@@ -66,8 +62,7 @@ class FileService {
         $searchTag2 = null;
         $searchTag3 = null;
         $searchTag4 = null;
-        switch ($searchTags !== null ? count($searchTags) : 0) 
-        {
+        switch ($searchTags !== null ? count($searchTags) : 0) {
             case 4:
                 $searchTag4 = $searchTags[3];
             case 3:
@@ -81,7 +76,7 @@ class FileService {
         // LOB使用のためPDOを取得し直接SQLを実行する
         $db = DB::connection('pgsql')->getPdo();
         $stmt = $db->prepare("INSERT INTO files (file_data, upload_type, file_name, upload_owner_name, file_comment, delete_password, data_type, created_at, updated_at, upload_user_id, search_tag1, search_tag2, search_tag3, search_tag4) "
-                . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            . "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->bindParam(1, $fileData, $db::PARAM_LOB); //ラージオブジェクトとして登録
         $stmt->bindParam(2, $uploadType, $db::PARAM_STR);
         $stmt->bindParam(3, $fileName, $db::PARAM_STR);
@@ -101,4 +96,4 @@ class FileService {
         // 切断
         unset($db);
     }
-  }
+}
