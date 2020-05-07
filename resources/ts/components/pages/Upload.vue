@@ -195,13 +195,6 @@
         </ValidationObserver>
       </v-col>
     </v-container>
-    <v-snackbar
-      v-model="snackbar"
-      :vertical="true"
-      color="success"
-      :timeout="2000"
-      :default="false"
-    >{{ flash }}</v-snackbar>
     <confirm-upload-modal ref="dialog" :uploadObject="uploadObject"></confirm-upload-modal>
   </v-content>
 </template>
@@ -238,7 +231,6 @@ export default class SimpleUpload extends Vue {
     searchTag: [],
     deletePassword: ""
   };
-  snackbar: boolean = false;
 
   $refs!: {
     dialog: ConfirmUploadModal;
@@ -250,9 +242,6 @@ export default class SimpleUpload extends Vue {
   flash!: string | null;
 
   public created() {
-    if (this.flash) {
-      this.snackbar = true;
-    }
 
     Vue.prototype.$http
       .get(`/api/user`)
