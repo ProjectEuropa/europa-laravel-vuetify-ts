@@ -33,7 +33,13 @@
           </v-flex>
 
           <v-flex class="text-xs-right">
-            <v-btn color="red darken-1" text @click="submit()">アップロード</v-btn>
+            <v-btn
+              color="red darken-1"
+              text
+              :loading="loading"
+              :disabled="loading"
+              @click="submit()"
+            >アップロード</v-btn>
           </v-flex>
         </v-card-actions>
       </v-card>
@@ -47,7 +53,7 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 @Component
 export default class ConfirmEventNoticeModal extends Vue {
   dialog: boolean = false;
-
+  loading: boolean = false;
   @Prop()
   storeObj!: string;
   /**
@@ -60,6 +66,7 @@ export default class ConfirmEventNoticeModal extends Vue {
    * name
    */
   public submit() {
+    this.loading = true;
     (<HTMLFormElement>document.querySelector("#store")).submit();
   }
 
